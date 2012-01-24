@@ -1,0 +1,3 @@
+The famous game coded in C. 
+The PC uses a recursive function to calculate its next move.
+It plays every possible move and takes the field with the highest win-rate.

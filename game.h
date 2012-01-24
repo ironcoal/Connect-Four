@@ -1,11 +1,11 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
 
-    #define RUNNING -2
-    #define PLAYER -10000
-    #define COMPUTER -10001
-    #define EMPTY -10002
-	#define DRAW -7
+    #define RUNNING 1
+    #define EMPTY -10000
+	#define PLAYER EMPTY - 1
+    #define COMPUTER EMPTY - 2
+    #define DRAW 0
 
     void new_game(char choice);
     void move_player(double board[][3]);

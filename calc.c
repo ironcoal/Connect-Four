@@ -164,13 +164,9 @@ int next_move(double board[][3], int player) {
     empty_all_unoccupied(board);
     
     /* Has somebody won in this situation? */
-    if (stat == PLAYER)
-        return PLAYER;
-    if (stat == COMPUTER)
-        return COMPUTER;
-	if (stat == DRAW)
-		return DRAW;
-
+    if (stat <= EMPTY)
+        return stat;
+        
     /* Can player(computer) win in 1 turn? */
     stat = status(board, other(player));
     if (stat > 0) {

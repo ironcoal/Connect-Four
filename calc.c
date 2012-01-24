@@ -112,19 +112,8 @@ int calc_move(double board[][3], int player) {
     int temp;
     double* empty;
     double copy[3][3];
-
-    /* Has somebody won in this situation? */
-    stat = status(board, player);
-    if (stat == PLAYER)
-        return -10;
         
-    if (stat == COMPUTER) 
-        return 1;
-        
-    if (stat == DRAW)
-        return 0;
-        
-    /* Can player(computer) win with one turn? */
+    /* Can player(computer) win with next move? */
     stat = status(board, other(player));
     if (stat > 0) {
         if (player == COMPUTER)

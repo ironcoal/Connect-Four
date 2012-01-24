@@ -4,6 +4,24 @@
 #include <stdlib.h>
 #include "calc.h"
 
+void paint_board_empty(double ar[][3]) {
+   
+	int i, j;
+    char cop[3][3];
+	
+	for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++)
+            if (ar[i][j] == PLAYER)
+                cop[i][j] = 'X';
+            else
+                if (ar[i][j] == COMPUTER)
+                    cop[i][j] = 'C';
+				else 
+					cop[i][j] = ' ';
+	}
+	paint_board(cop);
+}
+
 void paint_board(char par[][3]) {
     
     system("cls");

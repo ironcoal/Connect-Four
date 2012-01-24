@@ -32,7 +32,7 @@ void new_game(char choice) {
         mark_highest_random(board, COMPUTER);
         
         /* Has the above move of the PC changed the "winning-status"? */
-        won = status(board, player);
+        won = status(board, COMPUTER);
 		if ((won == COMPUTER) || (won == PLAYER) || (won == DRAW)) {
             stat = won;
             break;
@@ -46,7 +46,7 @@ void new_game(char choice) {
     }
 	
     /* Shows the final result of the game */
-    paint_board(board);
+    paint_board_empty(board);
     if (stat == PLAYER) {
         puts("\nCongratulations! You have won!");
         paint_smiley(1);

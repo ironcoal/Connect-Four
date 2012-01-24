@@ -3,7 +3,6 @@
 #include "paint.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <windows.h> 
 #include "input.h"
 
 /* Returns field which has to be taken, the player who has won, draw, or NULL*/

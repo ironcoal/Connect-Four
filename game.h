@@ -3,8 +3,8 @@
 
     #define RUNNING 1
     #define EMPTY -10000
-	#define PLAYER EMPTY - 1
-    #define COMPUTER EMPTY - 2
+	#define PLAYER (EMPTY - 1)
+    #define COMPUTER (EMPTY - 2)
     #define DRAW 0
 
     void new_game(char choice);

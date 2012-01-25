@@ -12,23 +12,27 @@ void paint_board_empty(double board[][3]) {
 	
 	for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++)
-            if (board[i][j] == PLAYER)
+            switch(board[i][j]) {
+                
+                case PLAYER:
                 strar[i * j] = "X";
-            else
-                if (board[i][j] == COMPUTER)
-                    strar[i * j] = "C";
-				else {
-                    sprintf(numb,"%d",board[i][j]);
-                    strar[i * j] = numb;
-                }
+                break;
+                
+                case COMPUTER:
+                strar[i * j] = "C";
+                break;
+                
+                case EMPTY:
+                strar[i * j] = "0";
+                break;
+                
+                default:
+                sprintf(numb,"%d",board[i][j]);
+                strar[i * j] = numb;
+            }
 	}
 	paint_board(strar);
 }
-
-void itostr(int numb, char *str) {
-    ar = calloc(9, sizeof(char));
-}
-    
 
 void paint_board(char** par) {
     
@@ -38,11 +42,11 @@ void paint_board(char** par) {
     "|   TIC - TAC - TOE   |\n"
     "-----------------------\n\n\n"
 	"----------------       X = Player\n"						
-	"|  %c |  %c |  %c |       C = Computer\n"						
+	"|  %s |  %s |  %s |       C = Computer\n"						
 	"----------------\n"		
-	"|  %c |  %c |  %c |       1   2   3\n"		
+	"|  %s |  %s |  %s |       1   2   3\n"		
 	"----------------       4   5   6\n"						
-	"|  %c |  %c |  %c |       7   8   9\n"
+	"|  %s |  %s |  %s |       7   8   9\n"
 	"----------------\n\n"
 	, par[0], par[1], par[2], 
 	par[3], par[4], par[5], 

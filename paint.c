@@ -11,7 +11,7 @@ void paint_board_number(int board[][3]) {
     
     strar = malloc(9 * sizeof(char));
     for (i = 0; i < 9; i++)
-        strar[i] = malloc(9 * sizeof(char));
+        strar[i] = malloc(15 * sizeof(char));
     
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {

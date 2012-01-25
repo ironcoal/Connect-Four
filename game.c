@@ -43,7 +43,7 @@ void new_game(char choice) {
     }
     
     /* Shows the final result of the game */
-    paint_board_empty(board);
+    paint_board_number(board);
     if (stat == PLAYER) {
         puts("\nCongratulations! You have won!");
         paint_smiley(1);
@@ -62,7 +62,7 @@ void new_game(char choice) {
 void move_player(int board[][3]) {
     
     int number;
-    paint_board_empty(board);
+    paint_board_number(board);
     
     /* Clear the board of all numbers */
     empty_all_unoccupied(board);

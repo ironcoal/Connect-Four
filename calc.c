@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include "input.h"
 
-/* Returns field which has to be taken, the player who has won, draw, or NULL*/
+/* Returns field which has to be taken, 
+the player who has won, draw, or NULL*/
 int status(double board[][3], int pl) {
     
     int won, count;

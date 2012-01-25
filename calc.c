@@ -202,6 +202,7 @@ int next_move(double board[][3], int player) {
     return RUNNING;
 }
 
+/* Set difficulty of PC */
 void set_difficulty(int number) {
     diff_player = (-1) * number * 2;
     diff_pc = 10 / number;

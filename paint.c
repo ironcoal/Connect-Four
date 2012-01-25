@@ -6,10 +6,12 @@
 
 void paint_board_empty(int board[][3]) {
    
-	int i, j;
+    int i, j;
     char *strar[9];
     char numb[9];
 	
+    for (i = 0; i < 3; i++)
+        strar[i] = calloc(9, sizeof(char));
 	for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             switch(board[i][j]) {
@@ -29,12 +31,13 @@ void paint_board_empty(int board[][3]) {
                 default:
                     sprintf(numb, "%d", board[i][j]);
                     strar[(3 * i) + j] = numb;
+                    break;
             }
-            printf("%s: %i\n", strar[(3 * i) + j], (3 * i) + j);
+            printf("vorher: %i: %s\n", (3 * i) + j, strar[(3 * i) + j]);
         }
 	}
     for (i = 0; i < 9; i++)
-        printf("\n%s", strar[i]);
+        printf("nachher: %i: %s\n", i, strar[i]);
 
     getchar();
 	paint_board(strar);

@@ -10,7 +10,7 @@ void paint_board_empty(int board[][3]) {
     char *strar[9];
     char numb[9];
     
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 9; i++)
         strar[i] = calloc(9, sizeof(char));
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {

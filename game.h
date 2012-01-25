@@ -8,10 +8,10 @@
     #define RUNNING (EMPTY - 4)
 
     void new_game(char choice);
-    void move_player(double board[][3]);
-    double* getfield(int number, double board[][3]);
+    void move_player(int board[][3]);
+    int* getfield(int number, int board[][3]);
     int field_number(int i, int j);
-    void mark_highest(double board[][3], int player);
-    void mark_highest_random(double board[][3], int player);
+    void mark_highest(int board[][3], int player);
+    void mark_highest_random(int board[][3], int player);
 
 #endif

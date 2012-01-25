@@ -4,37 +4,43 @@
 #include <stdlib.h>
 #include "calc.h"
 
-void paint_board_empty(double board[][3]) {
+void paint_board_empty(int board[][3]) {
    
 	int i, j;
     char *strar[9];
     char numb[9];
 	
 	for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++)
+        for (j = 0; j < 3; j++) {
             switch(board[i][j]) {
                 
                 case PLAYER:
-                strar[i * j] = "X";
-                break;
+                    strar[(3 * i) + j] = "X";
+                    break;
                 
                 case COMPUTER:
-                strar[i * j] = "C";
-                break;
+                    strar[(3 * i) + j] = "C";
+                    break;
                 
                 case EMPTY:
-                strar[i * j] = "0";
-                break;
+                    strar[(3 * i) + j] = "0";
+                    break;
                 
                 default:
-                sprintf(numb,"%d",board[i][j]);
-                strar[i * j] = numb;
+                    sprintf(numb, "%d", board[i][j]);
+                    strar[(3 * i) + j] = numb;
             }
+            printf("%s: %i\n", strar[(3 * i) + j], (3 * i) + j);
+        }
 	}
+    for (i = 0; i < 9; i++)
+        printf("\n%s", strar[i]);
+
+    getchar();
 	paint_board(strar);
 }
 
-void paint_board(char** par) {
+void paint_board(char *par[9]) {
     
     system("cls");
     printf(
@@ -51,28 +57,6 @@ void paint_board(char** par) {
 	, par[0], par[1], par[2], 
 	par[3], par[4], par[5], 
 	par[6], par[7], par[8]);
-}
-
-void paint_board_old(double board[][3]) {
-    int i;
-    int j;
-    printf("\n");
-    puts("Gewichtung, bevor Computer setzt!");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            if (board[i][j] == PLAYER) {
-                printf("%8c", 'X');
-            } else {
-                if (board[i][j] == COMPUTER) {
-                    printf("%8c", 'C');
-                } else {
-                    printf("%8.f", board[i][j]);
-                }
-            }
-        }
-        printf("\n");
-    }
-    printf("\n\n");
 }
 
 void paint_smiley(int look) {

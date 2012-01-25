@@ -10,13 +10,13 @@ int diff_pc = 1;
 
 /* Returns field which has to be taken, 
 the player who has won, draw, or NULL*/
-int status(double board[][3], int pl) {
+int status(int board[][3], int pl) {
     
     int won, count;
     int temp = 0;
     int i, j, z;
     int otherpl = other(pl);
-	double copy[3][3];
+	int copy[3][3];
     
     /* Check in rows */
     for (i = 0; i < 3; i++) {
@@ -111,11 +111,11 @@ int status(double board[][3], int pl) {
     return 0;
 }
 
-int calc_move(double board[][3], int player) {
+int calc_move(int board[][3], int player) {
     int stat;
     int temp;
-    double* empty;
-    double copy[3][3];
+    int *empty;
+    int copy[3][3];
         
     /* Can player(computer) win with next move? */
     stat = status(board, other(player));
@@ -160,11 +160,11 @@ int calc_move(double board[][3], int player) {
 /* Almost identical to the above "main" calc-function... 
 but it saves the calculatet numbers on the board, so the 
 PC can later choose the highest */
-int next_move(double board[][3], int player) {
+int next_move(int board[][3], int player) {
     int stat = status(board, player);
-    double* empty;
-    double temp;
-    double copy[3][3];
+    int* empty;
+    int temp;
+    int copy[3][3];
     empty_all_unoccupied(board);
     
     /* Has somebody won in this situation? */
@@ -209,7 +209,7 @@ void set_difficulty(int number) {
 }
 
 /* Copy content of the two boards */
-void copy_board(double old[][3], double copy[][3]) {
+void copy_board(int old[][3], int copy[][3]) {
     int i,j;
     for (i = 0; i < 3; i++)
         for (j = 0; j < 3; j++)
@@ -226,7 +226,7 @@ int other(int pl) {
 
 /* Set all empty fields to zero. Useful if there
 is only one reasonable choice for the PC */
-void zero_all_empty(double board[][3]) {
+void zero_all_empty(int board[][3]) {
     int i,j;
     for (i = 0; i < 3; i++)
         for (j = 0; j < 3; j++)
@@ -234,7 +234,7 @@ void zero_all_empty(double board[][3]) {
                 board[i][j] = 0;
 }
 
-int add_all_unoccupied(double board[][3]) {
+int add_all_unoccupied(int board[][3]) {
     int i,j;
     int sum = 0;
     for (i = 0; i < 3; i++)
@@ -246,7 +246,7 @@ int add_all_unoccupied(double board[][3]) {
     return sum;
 }
 
-void empty_all_unoccupied(double board[][3]) {
+void empty_all_unoccupied(int board[][3]) {
     int i,j;
     for (i = 0; i < 3; i++)
         for (j = 0; j < 3; j++)
@@ -256,7 +256,7 @@ void empty_all_unoccupied(double board[][3]) {
 
 /* Return pointer to the next empty field, counted from
 top left to bottom right */
-double* getempty(double board[][3]) {
+int* getempty(int board[][3]) {
     int i,j;
     for (i = 0; i < 3; i++)
         for (j = 0; j < 3; j++)

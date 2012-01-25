@@ -9,7 +9,7 @@
 void new_game(char choice) {
     
     /* The board */
-    double board[3][3];
+    int board[3][3];
     
     int i,j;
     int stat;
@@ -37,12 +37,12 @@ void new_game(char choice) {
             stat = won;
             break;
         }
+                     
+        /* Players turn */
+        move_player(board);
         
         /* Clear the board of all numbers */
       	empty_all_unoccupied(board);
-        
-        /* Players turn */
-        move_player(board);
     }
 	
     /* Shows the final result of the game */
@@ -62,7 +62,7 @@ void new_game(char choice) {
         }
 }
 
-void move_player(double board[][3]) {
+void move_player(int board[][3]) {
     
     int number;
     paint_board_empty(board);
@@ -78,7 +78,7 @@ void move_player(double board[][3]) {
     }
 }
 
-void mark_highest(double board[][3], int player) {
+void mark_highest(int board[][3], int player) {
     int i,j;
     int highest = EMPTY + 1;
     int bol = 0;
@@ -99,7 +99,7 @@ void mark_highest(double board[][3], int player) {
             }
 }
 
-void mark_highest_random(double board[][3], int player) {
+void mark_highest_random(int board[][3], int player) {
     
     int i,j;
     int highest = EMPTY + 1;
@@ -131,7 +131,7 @@ void mark_highest_random(double board[][3], int player) {
     7 8 9
     The function returns a pointer connected to the entered number */
 
-double *getfield(int number, double board[][3]) {
+int *getfield(int number, int board[][3]) {
     return &board[number / 3][(number % 3) - 1];
 }
 

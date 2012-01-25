@@ -4,25 +4,33 @@
 #include <stdlib.h>
 #include "calc.h"
 
-void paint_board_empty(double ar[][3]) {
+void paint_board_empty(double board[][3]) {
    
 	int i, j;
-    char cop[3][3];
+    char *strar[9];
+    char numb[9];
 	
 	for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++)
-            if (ar[i][j] == PLAYER)
-                cop[i][j] = 'X';
+            if (board[i][j] == PLAYER)
+                strar[i * j] = "X";
             else
-                if (ar[i][j] == COMPUTER)
-                    cop[i][j] = 'C';
-				else 
-					cop[i][j] = ' ';
+                if (board[i][j] == COMPUTER)
+                    strar[i * j] = "C";
+				else {
+                    sprintf(numb,"%d",board[i][j]);
+                    strar[i * j] = numb;
+                }
 	}
-	paint_board(cop);
+	paint_board(strar);
 }
 
-void paint_board(char par[][3]) {
+void itostr(int numb, char *str) {
+    ar = calloc(9, sizeof(char));
+}
+    
+
+void paint_board(char** par) {
     
     system("cls");
     printf(
@@ -36,9 +44,9 @@ void paint_board(char par[][3]) {
 	"----------------       4   5   6\n"						
 	"|  %c |  %c |  %c |       7   8   9\n"
 	"----------------\n\n"
-	, par[0][0], par[0][1], par[0][2], 
-	par[1][0], par[1][1], par[1][2], 
-	par[2][0], par[2][1], par[2][2]);
+	, par[0], par[1], par[2], 
+	par[3], par[4], par[5], 
+	par[6], par[7], par[8]);
 }
 
 void paint_board_old(double board[][3]) {

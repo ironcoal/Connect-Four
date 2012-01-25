@@ -40,9 +40,6 @@ void new_game(char choice) {
                      
         /* Players turn */
         move_player(board);
-        
-        /* Clear the board of all numbers */
-          empty_all_unoccupied(board);
     }
     
     /* Shows the final result of the game */
@@ -66,6 +63,10 @@ void move_player(int board[][3]) {
     
     int number;
     paint_board_empty(board);
+    
+    /* Clear the board of all numbers */
+    empty_all_unoccupied(board);
+    
     for (;;) {
         printf("\nPlease enter the number of an empty field!\n");
         number = (int) check_input_char("123456789") - '0';
@@ -76,27 +77,6 @@ void move_player(int board[][3]) {
             printf("Field is already taken\n");
         }
     }
-}
-
-void mark_highest(int board[][3], int player) {
-    int i,j;
-    int highest = EMPTY + 1;
-    int bol = 0;
-    
-    /* Get highest number */
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
-            if (board[i][j] > highest)
-                highest = board[i][j];
-                                
-    /* Mark first field with highest number */
-    
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
-            if ((board[i][j] == highest) && (bol == 0)){
-                board[i][j] = player;
-                bol = 1;
-            }
 }
 
 void mark_highest_random(int board[][3], int player) {

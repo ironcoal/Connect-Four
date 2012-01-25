@@ -10,10 +10,15 @@ void paint_board_empty(int board[][3]) {
     char *strar[9];
     char numb[9];
     
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            printf("feld: %i\n", board[i][j]);
+    
     for (i = 0; i < 9; i++)
         strar[i] = calloc(9, sizeof(char));
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
+            
             switch(board[i][j]) {
                 
                 case PLAYER:
@@ -34,6 +39,7 @@ void paint_board_empty(int board[][3]) {
                     break;
             }
             printf("vorher: %i: %s\n", (3 * i) + j, strar[(3 * i) + j]);
+            printf("0: %s\n", strar[0]);
         }
     }
     for (i = 0; i < 9; i++)

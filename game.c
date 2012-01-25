@@ -33,7 +33,7 @@ void new_game(char choice) {
         
         /* Has the above move of the PC changed the "winning-status"? */
         won = status(board, COMPUTER);
-		if ((won == COMPUTER) || (won == PLAYER) || (won == DRAW)) {
+        if ((won == COMPUTER) || (won == PLAYER) || (won == DRAW)) {
             stat = won;
             break;
         }
@@ -42,9 +42,9 @@ void new_game(char choice) {
         move_player(board);
         
         /* Clear the board of all numbers */
-      	empty_all_unoccupied(board);
+          empty_all_unoccupied(board);
     }
-	
+    
     /* Shows the final result of the game */
     paint_board_empty(board);
     if (stat == PLAYER) {

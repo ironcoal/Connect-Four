@@ -2,7 +2,7 @@
 #define GAME_H_INCLUDED
 
     #define EMPTY -10000
-	#define PLAYER (EMPTY - 1)
+    #define PLAYER (EMPTY - 1)
     #define COMPUTER (EMPTY - 2)
     #define DRAW (EMPTY - 3)
     #define RUNNING (EMPTY - 4)

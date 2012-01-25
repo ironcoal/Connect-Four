@@ -16,7 +16,7 @@ int status(int board[][3], int pl) {
     int temp = 0;
     int i, j, z;
     int otherpl = other(pl);
-	int copy[3][3];
+    int copy[3][3];
     
     /* Check in rows */
     for (i = 0; i < 3; i++) {
@@ -97,17 +97,17 @@ int status(int board[][3], int pl) {
         for (i = 0, j = 2; i < 3; i++, j--)
             if ((board[j][i] != pl) && (board[j][i] != otherpl))
                 return field_number(j,i);
-	
-	/* draw? */
-	copy_board(board, copy);
-	empty_all_unoccupied(board);
-	if (getempty(board) == NULL) {
-		copy_board(copy, board);
-		return DRAW;
-	}
-	copy_board(copy, board);
     
-	/* Nothing of the above: free choice! */
+    /* draw? */
+    copy_board(board, copy);
+    empty_all_unoccupied(board);
+    if (getempty(board) == NULL) {
+        copy_board(copy, board);
+        return DRAW;
+    }
+    copy_board(copy, board);
+    
+    /* Nothing of the above: free choice! */
     return 0;
 }
 
@@ -193,11 +193,11 @@ int next_move(int board[][3], int player) {
         empty_all_unoccupied(board);
         *empty = player;
         temp = calc_move(board, other(player));
-		empty_all_unoccupied(board);
-		copy_board(copy, board);
-		*empty = temp;
+        empty_all_unoccupied(board);
+        copy_board(copy, board);
+        *empty = temp;
 
-	}
+    }
    
     return RUNNING;
 }

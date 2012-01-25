@@ -10,5 +10,6 @@ int add_all_unoccupied(double board[][3]);
 double* getempty(double board[][3]);
 void empty_all_unoccupied(double board[][3]);
 void copy_board(double old[][3], double copy[][3]);
+void set_difficulty(int number);
 
 #endif

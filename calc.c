@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include "input.h"
 
+int diff_player = -1;
+int diff_pc = 1;
+
 /* Returns field which has to be taken, 
 the player who has won, draw, or NULL*/
 int status(double board[][3], int pl) {
@@ -118,10 +121,10 @@ int calc_move(double board[][3], int player) {
     stat = status(board, other(player));
     if (stat > 0) {
         if (player == COMPUTER)
-            return 1;
+            return diff_pc;
         else
         if (player == PLAYER)
-            return -10;
+            return diff_player;
     }
     /* Is there only one choice for next move? */
     stat = status(board, player);
@@ -197,6 +200,11 @@ int next_move(double board[][3], int player) {
 	}
    
     return RUNNING;
+}
+
+void set_difficulty(int number) {
+    diff_player = (-1) * number * 2;
+    diff_pc = 10 / number;
 }
 
 /* Copy content of the two boards */

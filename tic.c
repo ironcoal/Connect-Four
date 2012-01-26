@@ -6,11 +6,12 @@
 
 int main(void) {
     
+    int i = 0;
     char input;
     system("cls");
     puts("Welcome to TicTacToe 0.5!");
     
-    for (;;) {
+    while (1) {
         puts("To start a new game, press \"n\", to "
         "exit, press \"e\"!");
        

@@ -14,7 +14,7 @@ char check_input_char(char *allowed) {
     char inp;
     int i;
     
-    for (;;) {
+    while (1) {
         inp = getchar();
         clearbuf();
         for (i = 0; allowed[i] != 0; i++)

@@ -67,7 +67,7 @@ void move_player(int board[][3]) {
     empty_all_unoccupied(board);
     
     /* Clear the board of all numbers */
-    for (;;) {
+    while (1) {
         printf("\nPlease enter the number of an empty field! (h for hint)\n");
         inp = check_input_char("123456789h");
         if (inp == 'h') {

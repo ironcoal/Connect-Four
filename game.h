@@ -13,6 +13,5 @@
     int* getfield(int number, int board[][3]);
     int field_number(int i, int j);
     void mark_highest_random(int board[][3], int player);
-    void show_highest(int board[][3]);
 
 #endif

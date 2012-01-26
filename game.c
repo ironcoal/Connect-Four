@@ -61,20 +61,22 @@ void new_game(char choice) {
 
 void move_player(int board[][3]) {
     
-    int number;
+    char inp;
 
-    next_move(board, PLAYER);
-    show_highest(board);
     paint_board(board,'e');
-
-    /* Clear the board of all numbers */
     empty_all_unoccupied(board);
     
+    /* Clear the board of all numbers */
     for (;;) {
-        printf("\nPlease enter the number of an empty field!\n");
-        number = (int) check_input_char("123456789") - '0';
-        if (*getfield(number, board) == EMPTY) {
-            *getfield(number, board) = PLAYER;
+        printf("\nPlease enter the number of an empty field! (h for hint)\n");
+        inp = check_input_char("123456789h");
+        if (inp == 'h') {
+            next_move(board, PLAYER);
+            mark_highest_random(board, HINT);
+            paint_board(board,'e');
+            empty_all_unoccupied(board);
+        } else if (*getfield((int) inp - '0', board) == EMPTY) {
+            *getfield((int) inp - '0', board) = PLAYER;
             break;
         } else {
             printf("Field is already taken\n");
@@ -82,25 +84,7 @@ void move_player(int board[][3]) {
     }
 }
 
-void show_highest(int board[][3]) {
-    int i,j;
-    int highest = EMPTY + 1;
-    
-    /* Get highest number */
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
-            if (board[i][j] > highest)
-                highest = board[i][j];
-                
-    /* Mark all highest with HINT */
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
-            if (board[i][j] == highest)
-                board[i][j] = HINT;    
-}
-
-
-void mark_highest_random(int board[][3], int player) {
+void mark_highest_random(int board[][3], int sign) {
     
     int i,j;
     int highest = EMPTY + 1;
@@ -122,8 +106,8 @@ void mark_highest_random(int board[][3], int player) {
     do
     randint = (rand() % 9) + 1;
     while (*getfield(randint, board) != highest);
-
-    *getfield(randint, board) = player;
+    
+    *getfield(randint, board) = sign;
 }
 
 /* The board is numbered after the following sheme:
@@ -133,7 +117,10 @@ void mark_highest_random(int board[][3], int player) {
     The function returns a pointer connected to the entered number */
 
 int *getfield(int number, int board[][3]) {
-    return &board[number / 3][(number % 3) - 1];
+    if ((number >= 1) && (number <= 9))
+        return &board[number / 3][(number % 3) - 1];
+    else
+        return NULL;
 }
 
 /* Returns the fieldnumber connected to the matrix-adress */

@@ -4,5 +4,6 @@
 void paint_board(char** par);
 void paint_smiley(int look);
 void paint_board_number(int board[][3]);
+void paint_board_empty(int board[][3]);
 
 #endif

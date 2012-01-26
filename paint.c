@@ -9,9 +9,9 @@ void paint_board_number(int board[][3]) {
     int i, j;
     char** strar;
     
-    strar = malloc(9 * sizeof(char));
+    strar = calloc(9, sizeof(char*));
     for (i = 0; i < 9; i++)
-        strar[i] = malloc(15 * sizeof(char));
+        strar[i] = calloc(9, sizeof(char));
     
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
@@ -32,6 +32,39 @@ void paint_board_number(int board[][3]) {
                 
                 default:
                     sprintf(strar[(3 * i) + j], "%d", board[i][j]);
+                    printf("%i",(3 * i) + j);
+                    break;
+            }
+        }
+    }    
+    paint_board(strar);
+    free(strar);
+}
+
+void paint_board_empty(int board[][3]) {
+   
+    int i, j;
+    char** strar;
+    
+    strar = malloc(9 * sizeof(char));
+    for (i = 0; i < 9; i++)
+        strar[i] = malloc(15 * sizeof(char));
+    
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            
+            switch(board[i][j]) {
+                
+                case PLAYER:
+                    strar[(3 * i) + j] = "X";
+                    break;
+                
+                case COMPUTER:
+                    strar[(3 * i) + j] = "C";
+                    break;
+                
+                default:
+                    strar[(3 * i) + j] = " ";
                     break;
             }
         }

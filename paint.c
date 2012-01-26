@@ -11,7 +11,7 @@ void paint_board(int board[][3], char choice) {
     
     strar = malloc(9 * sizeof(char));
     for (i = 0; i < 9; i++)
-        strar[i] = malloc(9 * sizeof(char));
+        strar[i] = malloc(15 * sizeof(char));
     
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
@@ -34,7 +34,7 @@ void paint_board(int board[][3], char choice) {
                     break;
                     
                 case HINT:
-                        strar[(3 * i) + j] = "h";
+                        strar[(3 * i) + j] = "+";
                     break;
                 
                 default:

@@ -27,7 +27,7 @@ void new_game(char choice) {
     /* nex_move fills the board with numbers which show
     the chance of winning */
     while ((stat = next_move(board, COMPUTER)) == RUNNING) {
-    
+
         /* PC takes one of the fields with the highest number */
         mark_highest_random(board, COMPUTER);
         
@@ -66,7 +66,7 @@ void move_player(int board[][3]) {
     next_move(board, PLAYER);
     show_highest(board);
     paint_board(board,'e');
-    
+
     /* Clear the board of all numbers */
     empty_all_unoccupied(board);
     

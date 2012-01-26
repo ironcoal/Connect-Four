@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include "input.h"
 
-int diff_player = -1;
-int diff_pc = 1;
+int looseReturn = -1;
+int winReturn = 1;
 
 /* Returns field which has to be taken, 
 the player who has won, draw, or NULL*/
@@ -111,7 +111,7 @@ int status(int board[][3], int pl) {
     return 0;
 }
 
-int calc_move(int board[][3], int player) {
+int calc_move(int board[][3], int player, int turn) {
     int stat;
     int temp;
     int *empty;
@@ -120,11 +120,10 @@ int calc_move(int board[][3], int player) {
     /* Can player(computer) win with next move? */
     stat = status(board, other(player));
     if (stat > 0) {
-        if (player == COMPUTER)
-            return diff_pc;
+        if (player == turn)
+            return winReturn;
         else
-        if (player == PLAYER)
-            return diff_player;
+            return looseReturn;
     }
     /* Is there only one choice for next move? */
     stat = status(board, player);
@@ -132,7 +131,7 @@ int calc_move(int board[][3], int player) {
         copy_board(board, copy);
         *getfield(stat, board) = player;
         empty_all_unoccupied(board);       
-        temp = calc_move(board, other(player));
+        temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
         return temp;
     }
@@ -145,7 +144,7 @@ int calc_move(int board[][3], int player) {
         copy_board(board, copy);
         *empty = player;
         empty_all_unoccupied(board); 
-        temp = calc_move(board, other(player));
+        temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
         *empty = temp;
     }
@@ -160,8 +159,8 @@ int calc_move(int board[][3], int player) {
 /* Almost identical to the above "main" calc-function... 
 but it saves the calculatet numbers on the board, so the 
 PC can later choose the highest */
-int next_move(int board[][3], int player) {
-    int stat = status(board, player);
+int next_move(int board[][3], int turn) {
+    int stat = status(board, turn);
     int* empty;
     int temp;
     int copy[3][3];
@@ -172,7 +171,7 @@ int next_move(int board[][3], int player) {
         return stat;
         
     /* Can player(computer) win in 1 turn? */
-    stat = status(board, other(player));
+    stat = status(board, other(turn));
     if (stat > 0) {
         zero_all_empty(board);
         *getfield(stat, board) = 1;
@@ -180,7 +179,7 @@ int next_move(int board[][3], int player) {
     }
     
     /* Is there only one choice for next move? */
-    stat = status(board, player);
+    stat = status(board, turn);
     if (stat > 0) {
         zero_all_empty(board);
         *getfield(stat, board) = 1;
@@ -191,8 +190,8 @@ int next_move(int board[][3], int player) {
     while ((empty = getempty(board)) != NULL) {
         copy_board(board, copy);
         empty_all_unoccupied(board);
-        *empty = player;
-        temp = calc_move(board, other(player));
+        *empty = turn;
+        temp = calc_move(board, other(turn), turn);
         empty_all_unoccupied(board);
         copy_board(copy, board);
         *empty = temp;
@@ -204,8 +203,8 @@ int next_move(int board[][3], int player) {
 
 /* Set difficulty of PC */
 void set_difficulty(int number) {
-    diff_player = (-1) * number * 2;
-    diff_pc = 10 / number;
+    looseReturn = (-1) * number * 2;
+    winReturn = 10 / number;
 }
 
 /* Copy content of the two boards */

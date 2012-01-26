@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include "calc.h"
 
-void paint_board_number(int board[][3]) {
+void paint_board(int board[][3], char choice) {
    
     int i, j;
     char** strar;
     
-    strar = calloc(9, sizeof(char*));
+    strar = malloc(9 * sizeof(char));
     for (i = 0; i < 9; i++)
-        strar[i] = calloc(9, sizeof(char));
+        strar[i] = malloc(9 * sizeof(char));
     
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
@@ -27,52 +27,32 @@ void paint_board_number(int board[][3]) {
                     break;
                 
                 case EMPTY:
-                    strar[(3 * i) + j] = "0";
+                    if (choice == 'n')
+                        strar[(3 * i) + j] = "0";
+                    else 
+                        strar[(3 * i) + j] = " ";
+                    break;
+                    
+                case HINT:
+                        strar[(3 * i) + j] = "h";
                     break;
                 
                 default:
-                    sprintf(strar[(3 * i) + j], "%d", board[i][j]);
-                    printf("%i",(3 * i) + j);
-                    break;
-            }
-        }
-    }    
-    paint_board(strar);
-    free(strar);
-}
-
-void paint_board_empty(int board[][3]) {
-   
-    int i, j;
-    char** strar;
-    
-    strar = malloc(9 * sizeof(char));
-    for (i = 0; i < 9; i++)
-        strar[i] = malloc(15 * sizeof(char));
-    
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            
-            switch(board[i][j]) {
-                
-                case PLAYER:
-                    strar[(3 * i) + j] = "X";
-                    break;
-                
-                case COMPUTER:
-                    strar[(3 * i) + j] = "C";
-                    break;
-                
-                default:
-                    strar[(3 * i) + j] = " ";
+                    if (choice == 'n') {
+                        sprintf(strar[(3 * i) + j], "%d", board[i][j]);
+                        printf("%i",(3 * i) + j);
+                    } else                       
+                        strar[(3 * i) + j] = " ";
                     break;
             }
         }
     }
-    paint_board(strar);
+    
+    paint(strar);
+    free(strar);
 }
 
-void paint_board(char *par[9]) {
+void paint(char **par) {
     
     system("cls");
     printf(

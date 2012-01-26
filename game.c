@@ -43,7 +43,7 @@ void new_game(char choice) {
     }
     
     /* Shows the final result of the game */
-    paint_board_number(board);
+    paint_board(board,'e');
     if (stat == PLAYER) {
         puts("\nCongratulations! You have won!");
         paint_smiley(1);
@@ -62,7 +62,10 @@ void new_game(char choice) {
 void move_player(int board[][3]) {
     
     int number;
-    paint_board_number(board);
+
+    next_move(board, PLAYER);
+    show_highest(board);
+    paint_board(board,'e');
     
     /* Clear the board of all numbers */
     empty_all_unoccupied(board);
@@ -78,6 +81,24 @@ void move_player(int board[][3]) {
         }
     }
 }
+
+void show_highest(int board[][3]) {
+    int i,j;
+    int highest = EMPTY + 1;
+    
+    /* Get highest number */
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            if (board[i][j] > highest)
+                highest = board[i][j];
+                
+    /* Mark all highest with HINT */
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            if (board[i][j] == highest)
+                board[i][j] = HINT;    
+}
+
 
 void mark_highest_random(int board[][3], int player) {
     

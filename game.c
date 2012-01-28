@@ -50,7 +50,7 @@ void new_game(char choice) {
     } 
     else
         if (stat == COMPUTER) {
-            puts("\nSry, Computer wins. Maybe next time!");
+            puts("\nComputer wins. Maybe next time!");
             paint_smiley(-1);
         }
         else {

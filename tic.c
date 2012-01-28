@@ -9,7 +9,7 @@ int main(void) {
     int i = 0;
     char input;
     system("cls");
-    puts("Welcome to TicTacToe 0.5!");
+    puts("Welcome to TicTacToe 1.0! © DF");
     
     while (1) {
         puts("To start a new game, press \"n\", to "

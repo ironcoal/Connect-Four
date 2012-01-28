@@ -1,23 +1,17 @@
-#include "game.h"
-#include "input.h"
-#include <stdio.h>
-#include "paint.h"
-#include "calc.h"
-#include <stdlib.h>
-#include <time.h>
+#include "alllib.h"
 
 void new_game(char choice) {
     
     /* The board */
-    int board[3][3];
+    int board[ROW][COL];
     
     int i,j;
     int stat;
     int won;
 
     /* Clear new board */
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
+    for (i = 0; i < 7; i++)
+        for (j = 0; j < 7; j++)
             board[i][j] = EMPTY;
     
     /* If player chose to start ("yes"), let him "move" first */
@@ -59,7 +53,7 @@ void new_game(char choice) {
         }
 }
 
-void move_player(int board[][3]) {
+void move_player(int board[][COL]) {
     
     char inp;
 
@@ -84,15 +78,15 @@ void move_player(int board[][3]) {
     }
 }
 
-void mark_highest_random(int board[][3], int sign) {
+void mark_highest_random(int board[][COL], int sign) {
     
     int i,j;
     int highest = EMPTY + 1;
     int randint;
     
     /* Get highest number */
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
+    for (i = 0; i < 7; i++)
+        for (j = 0; j < 7; j++)
             if (board[i][j] > highest)
                 highest = board[i][j];
                                 
@@ -116,7 +110,7 @@ void mark_highest_random(int board[][3], int sign) {
     7 8 9
     The function returns a pointer connected to the entered number */
 
-int *getfield(int number, int board[][3]) {
+int *getfield(int number, int board[][COL]) {
     if ((number >= 1) && (number <= 9))
         return &board[number / 3][(number % 3) - 1];
     else

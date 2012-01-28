@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "input.h"
+#include "alllib.h"
 
 void clearbuf(void);
 char check_input_char(char* allowed);

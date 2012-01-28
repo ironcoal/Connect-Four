@@ -3,6 +3,6 @@
 
 void paint(char **par);
 void paint_smiley(int look);
-void paint_board(int board[][3], char choice);
+void paint_board(int board[][COL], char choice);
 
 #endif

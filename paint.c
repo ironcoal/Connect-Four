@@ -7,42 +7,43 @@
 void paint_board(int board[][3], char choice) {
    
     int i, j;
-    char** strar;
+    char*** strar;
     
-    strar = malloc(9 * sizeof(char));
+    strar = malloc(9 * sizeof(char*));
     for (i = 0; i < 9; i++)
-        strar[i] = malloc(15 * sizeof(char));
+        strar[i] = malloc(15 * sizeof(char*));
+    for (i = 0; i < 9; i++)
+        strar[i][i] = malloc(15 * sizeof(char));
     
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
+    for (i = 0; i < 7; i++) {
+        for (j = 0; j < 7; j++) {
             
             switch(board[i][j]) {
                 
                 case PLAYER:
-                    strar[(3 * i) + j] = "X";
+                    strar[i][j] = "X";
                     break;
                 
                 case COMPUTER:
-                    strar[(3 * i) + j] = "C";
+                    strar[i][j] = "C";
                     break;
                 
                 case EMPTY:
                     if (choice == 'n')
-                        strar[(3 * i) + j] = "0";
+                        strar[i][j] = "0";
                     else 
-                        strar[(3 * i) + j] = " ";
+                        strar[i][j] = " ";
                     break;
                     
                 case HINT:
-                        strar[(3 * i) + j] = "+";
+                        strar[i][j] = "+";
                     break;
                 
                 default:
                     if (choice == 'n') {
-                        sprintf(strar[(3 * i) + j], "%d", board[i][j]);
-                        printf("%i",(3 * i) + j);
+                        sprintf(strar[i][j], "%d", board[i][j]);
                     } else                       
-                        strar[(3 * i) + j] = " ";
+                        strar[i][j] = " ";
                     break;
             }
         }
@@ -52,24 +53,35 @@ void paint_board(int board[][3], char choice) {
     free(strar);
 }
 
-void paint(char **par) {
+void paint(char ***p) {
     
     system("cls");
     printf(
     "-----------------------\n"
-    "|   TIC - TAC - TOE   |\n"
+    "|   CONNECT FOUR   |\n"
     "-----------------------\n\n\n"
-    "----------------       X = Player\n"                        
-    "|%4s|%4s|%4s|       C = Computer\n"                        
-    "----------------\n"        
-    "|%4s|%4s|%4s|       1   2   3\n"        
-    "----------------       4   5   6\n"                        
-    "|%4s|%4s|%4s|       7   8   9\n"
-    "----------------\n\n"
-    , par[0], par[1], par[2], 
-    par[3], par[4], par[5], 
-    par[6], par[7], par[8]);
-}
+    "----------------------------\n     X = Player\n"                        
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|      C = Computer\n"                        
+    "----------------------------\n"
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|"        
+    "----------------------------\n"        
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|"    
+    "----------------------------\n"        
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|"
+    "----------------------------\n"
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|"
+    "----------------------------\n"     
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|"
+    "----------------------------\n"    
+    "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|", 
+    p[0][0], p[0][1], p[0][2], p[0][3], p[0][4], p[0][5], p[0][6],
+    p[1][0], p[1][1], p[1][2], p[1][3], p[1][4], p[1][5], p[1][6],
+    p[2][0], p[2][1], p[2][2], p[2][3], p[2][4], p[2][5], p[2][6],
+    p[3][0], p[3][1], p[3][2], p[3][3], p[3][4], p[3][5], p[3][6],
+    p[4][0], p[4][1], p[4][2], p[4][3], p[4][4], p[4][5], p[4][6],
+    p[5][0], p[5][1], p[5][2], p[5][3], p[5][4], p[5][5], p[5][6],
+    p[6][0], p[6][1], p[6][2], p[6][3], p[6][4], p[6][5], p[6][6],
+    }
 
 void paint_smiley(int look) {
     printf(

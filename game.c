@@ -5,14 +5,14 @@ void new_game(char choice) {
     /* The board */
     int board[ROW][COL];
     
-    int i,j;
+    int r, c;
     int stat;
-    int won;
+    int *won;
 
     /* Clear new board */
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            board[i][j] = EMPTY;
+    for (r = 0; r < ROW; r++)
+        for (c = 0; c < COL; c++)
+            board[r][c] = EMPTY;
     
     /* If player chose to start ("yes"), let him "move" first */
     if (choice == 'y')
@@ -104,20 +104,3 @@ void mark_highest_random(int board[][COL], int sign) {
     *getfield(randint, board) = sign;
 }
 
-/* The board is numbered after the following sheme:
-    1 2 3
-    4 5 6
-    7 8 9
-    The function returns a pointer connected to the entered number */
-
-int *getfield(int number, int board[][COL]) {
-    if ((number >= 1) && (number <= 9))
-        return &board[number / 3][(number % 3) - 1];
-    else
-        return NULL;
-}
-
-/* Returns the fieldnumber connected to the matrix-adress */
-int field_number(int i, int j) {
-    return (i * 3) + (j + 1);
-}

@@ -7,22 +7,22 @@ int winReturn = 1;
 the player who has won, draw, or NULL*/
 
 int calc_move(int board[][COL], int player, int turn) {
-    int stat;
+    int *danger;
     int temp;
     int *empty;
-    int copy[7][7];
+    int copy[ROW][COL];
         
     /* Can player(computer) win with next move? */
-    stat = status(board, other(player));
-    if (stat > 0) {
+    danger = is_danger(board, other(player));
+    if (danger != NULL) {
         if (player == turn)
             return winReturn;
         else
             return looseReturn;
     }
     /* Is there only one choice for next move? */
-    stat = status(board, player);
-    if (stat > 0) {
+    danger = is_danger(board, player);
+    if (danger != NULL) {
         copy_board(board, copy);
         *getfield(stat, board) = player;
         empty_all_unoccupied(board);       
@@ -56,9 +56,10 @@ but it saves the calculatet numbers on the board, so the
 PC can later choose the highest */
 int next_move(int board[][COL], int turn) {
     int stat = status(board, turn);
-    int* empty;
+    int *empty;
     int temp;
-    int copy[7][7];
+    int *danger;
+    int copy[ROW][COL];
     empty_all_unoccupied(board);
     
     /* Has somebody won in this situation? */
@@ -104,10 +105,10 @@ void set_difficulty(int number) {
 
 /* Copy content of the two boards */
 void copy_board(int old[][3], int copy[][3]) {
-    int i,j;
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            copy[i][j] = old[i][j];
+    int r, c;
+    for (r = 0; r < ROW; r++)
+        for (c = 0; c < COL; c++)
+            copy[r][c] = old[r][c];
 }
 
 /* Give other player */
@@ -121,40 +122,62 @@ int other(int pl) {
 /* Set all empty fields to zero. Useful if there
 is only one reasonable choice for the PC */
 void zero_all_empty(int board[][COL]) {
-    int i,j;
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            if (board[i][j] == EMPTY)
-                board[i][j] = 0;
+    int r, c;
+    for (r = 0; r < ROW; r++)
+        for (c = 0; c < COL; c++)
+            if (board[r][c] == EMPTY)
+                board[r][c] = 0;
 }
 
 int add_all_unoccupied(int board[][COL]) {
-    int i,j;
+    int r, c;
     int sum = 0;
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            if ((board[i][j] != PLAYER) && (board[i][j] != COMPUTER)) {
-                sum += board[i][j];
-                board[i][j] = EMPTY;
+    for (r = 0; r < ROW; r++)
+        for (c = 0; c < COL; c++)
+            if ((board[r][c] != PLAYER) && (board[r][c] != COMPUTER)) {
+                sum += board[r][c];
+                board[r][c] = EMPTY;
             }
     return sum;
 }
 
 void empty_all_unoccupied(int board[][COL]) {
-    int i,j;
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            if ((board[i][j] != PLAYER) && (board[i][j] != COMPUTER))
-                board[i][j] = EMPTY;
+    int r, c;
+    for (r = 0; r < ROW; r++)
+        for (c = 0; c < COL; c++)
+            if ((board[r][c] != PLAYER) && (board[r][c] != COMPUTER))
+                board[r][c] = EMPTY;
 }
 
-/* Return pointer to the next empty field, counted from
-top left to bottom right */
+/* Return pointer to the next empty field from the left */
 int* getempty(int board[][COL]) {
-    int i,j;
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            if (board[i][j] == EMPTY)
-                return &board[i][j];
+    int c;
+    int top;
+    for (c = 0; c < COL; c++)
+        if ((top = get_top(board, c)) != -1)
+            return &board[top][c];
     return NULL;
 }    
+
+int is_top(int board[][COL], int row, int column) 
+{
+    if (board[row][column] == EMPTY) {
+        /* Lowest row, or is a token under that field? */
+        if ((row == ROW - 1) || (board[row + 1][column] != EMPTY))
+            return 1;
+    }
+    return 0;
+}
+
+int get_top(int board[][COL], int column) 
+{
+    int r = 0;
+
+    while (board[r][column] == EMPTY)
+        r++;
+        
+    if (r == 0)
+        return -1; /* Column is full */
+    else
+        return r - 1;
+}

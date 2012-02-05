@@ -35,7 +35,7 @@ int calc_move(int board[][COL], int player, int turn) {
     and call function calc_move recursiv */
     
     copy_board(board, copy);
-    while ((empty = getempty(board)) != NULL) {
+    while ((empty = get_empty(board)) != NULL) {
         copy_board(board, copy);
         *empty = player;
         empty_all_unoccupied(board); 
@@ -84,7 +84,7 @@ int next_move(int board[][COL], int turn) {
     }
     
     /* Fill all empty fields with return value of calc_next */
-    while ((empty = getempty(board)) != NULL) {
+    while ((empty = get_empty(board)) != NULL) {
         copy_board(board, copy);
         empty_all_unoccupied(board);
         *empty = turn;
@@ -151,7 +151,7 @@ void empty_all_unoccupied(int board[][COL]) {
 }
 
 /* Return pointer to the next empty field from the left */
-int* getempty(int board[][COL]) {
+int* get_empty(int board[][COL]) {
     int c;
     int top;
     for (c = 0; c < COL; c++)

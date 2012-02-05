@@ -2,7 +2,6 @@
 
 int main(void) {
     
-    int i = 0;
     char input;
     system("cls");
     puts("Welcome to TicTacToe 1.0! (c) DF");

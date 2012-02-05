@@ -1,10 +1,4 @@
-#include "game.h"
-#include "calc.h"
-#include "analyse.h"
-#include "input.h"
-#include "paint.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "alllib.h"
 
 void new_game(char choice) {
     
@@ -68,33 +62,33 @@ void move_player(int board[][COL]) {
     
     /* Clear the board of all numbers */
     while (1) {
-        printf("\nPlease enter the number of an empty field! (h for hint)\n");
-        inp = check_input_char("123456789h");
+        printf("\nPlease enter the number of an empty row! (h for hint)\n");
+        inp = check_input_char("1234567h");
         if (inp == 'h') {
             next_move(board, PLAYER);
             mark_highest_random(board, HINT);
             paint_board(board,'e');
             empty_all_unoccupied(board);
-        } else if (*getfield((int) inp - '0', board) == EMPTY) {
-            *getfield((int) inp - '0', board) = PLAYER;
+        } else if (get_top(board, inp - '0') != -1) {
+            board[get_top(board, inp - '0')][inp - '0'] = PLAYER;
             break;
         } else {
-            printf("Field is already taken\n");
+            printf("Row is full!");
         }
     }
 }
 
 void mark_highest_random(int board[][COL], int sign) {
     
-    int i,j;
+    int r, c;
     int highest = EMPTY + 1;
     int randint;
     
     /* Get highest number */
-    for (i = 0; i < 7; i++)
-        for (j = 0; j < 7; j++)
-            if (board[i][j] > highest)
-                highest = board[i][j];
+    for (r = 0; r < ROW; r++)
+        for (c = 0; c < COL; c++)
+            if (board[r][c] > highest)
+                highest = board[r][c];
                                 
     /* Mark random field with highest number */
     
@@ -104,10 +98,10 @@ void mark_highest_random(int board[][COL], int sign) {
     /* Get random field-number. If field has highest 
     number, mark with player */
     do
-    randint = (rand() % 9) + 1;
-    while (*getfield(randint, board) != highest);
+    randint = (rand() % 7) + 1;
+    while (board[get_top(board, randint)][randint] != highest);
     
-    *getfield(randint, board) = sign;
+    board[get_top(board, randint)][randint] = sign;
 }
 
 

@@ -1,4 +1,4 @@
-#include "alllib.h"
+#include "paint.h"
 
 void paint_board(int board[][COL], char choice) {
    
@@ -53,9 +53,9 @@ void paint(char ***p) {
     
     system("cls");
     printf(
-    "-----------------------\n"
+    "---------------------\n"
     "|   CONNECT FOUR   |\n"
-    "-----------------------\n\n\n"
+    "---------------------\n\n\n"
     "----------------------------\n     X = Player\n"                        
     "|%4s|%4s|%4s|%4s|%4s|%4s|%4s|      C = Computer\n"                        
     "----------------------------\n"

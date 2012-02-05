@@ -1,4 +1,10 @@
-#include "alllib.h"
+#include "game.h"
+#include "calc.h"
+#include "analyse.h"
+#include "input.h"
+#include "paint.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void new_game(char choice) {
     
@@ -26,9 +32,9 @@ void new_game(char choice) {
         mark_highest_random(board, COMPUTER);
         
         /* Has the above move of the PC changed the "winning-status"? */
-        won = status(board, COMPUTER);
-        if ((won == COMPUTER) || (won == PLAYER) || (won == DRAW)) {
-            stat = won;
+        won = is_finished(board);
+
+        if ((*won == COMPUTER) || (*won == PLAYER) || (*won == DRAW)) {
             break;
         }
                      
@@ -103,4 +109,5 @@ void mark_highest_random(int board[][COL], int sign) {
     
     *getfield(randint, board) = sign;
 }
+
 

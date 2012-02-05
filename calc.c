@@ -1,4 +1,4 @@
-#include "alllib.h"
+#include "calc.h"
 
 int looseReturn = -1;
 int winReturn = 1;
@@ -13,7 +13,7 @@ int calc_move(int board[][COL], int player, int turn) {
     int copy[ROW][COL];
         
     /* Can player(computer) win with next move? */
-    danger = is_danger(board, other(player));
+    danger = is_finished(board);
     if (danger != NULL) {
         if (player == turn)
             return winReturn;
@@ -24,7 +24,7 @@ int calc_move(int board[][COL], int player, int turn) {
     danger = is_danger(board, player);
     if (danger != NULL) {
         copy_board(board, copy);
-        *getfield(stat, board) = player;
+        *danger = player;
         empty_all_unoccupied(board);       
         temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
@@ -55,7 +55,7 @@ int calc_move(int board[][COL], int player, int turn) {
 but it saves the calculatet numbers on the board, so the 
 PC can later choose the highest */
 int next_move(int board[][COL], int turn) {
-    int stat = status(board, turn);
+    int *won;
     int *empty;
     int temp;
     int *danger;
@@ -63,22 +63,23 @@ int next_move(int board[][COL], int turn) {
     empty_all_unoccupied(board);
     
     /* Has somebody won in this situation? */
-    if (stat <= EMPTY)
-        return stat;
+    won = is_finished(board);
+    if (won != NULL)
+        return *won;
         
     /* Can player(computer) win in 1 turn? */
-    stat = status(board, other(turn));
-    if (stat > 0) {
+    danger = is_danger(board, other(turn));
+    if (danger != NULL) {
         zero_all_empty(board);
-        *getfield(stat, board) = 1;
+        *danger = 1;
         return RUNNING;
     }
     
     /* Is there only one choice for next move? */
-    stat = status(board, turn);
-    if (stat > 0) {
+    danger = is_danger(board, turn);
+    if (danger != NULL) {
         zero_all_empty(board);
-        *getfield(stat, board) = 1;
+        *danger = 1;
         return RUNNING;
     }
     
@@ -104,7 +105,7 @@ void set_difficulty(int number) {
 }
 
 /* Copy content of the two boards */
-void copy_board(int old[][3], int copy[][3]) {
+void copy_board(int old[][COL], int copy[][COL]) {
     int r, c;
     for (r = 0; r < ROW; r++)
         for (c = 0; c < COL; c++)

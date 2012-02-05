@@ -1,4 +1,4 @@
-#include "alllib.h"
+#include "input.h"
 
 void clearbuf(void);
 char check_input_char(char* allowed);

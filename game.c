@@ -21,7 +21,7 @@ void new_game(char choice) {
     /* nex_move fills the board with numbers which show
     the chance of winning */
     while ((stat = next_move(board, COMPUTER)) == RUNNING) {
-
+        
         /* PC takes one of the fields with the highest number */
         mark_highest_random(board, COMPUTER);
         
@@ -70,7 +70,7 @@ void move_player(int board[][COL]) {
             paint_board(board,'e');
             empty_all_unoccupied(board);
         } else if (get_top(board, inp - '0') != -1) {
-            board[get_top(board, inp - '0')][inp - '0'] = PLAYER;
+            board[get_top(board, inp - '0' - 1)][inp - '0' - 1] = PLAYER;
             break;
         } else {
             printf("Row is full!");
@@ -98,10 +98,17 @@ void mark_highest_random(int board[][COL], int sign) {
     /* Get random field-number. If field has highest 
     number, mark with player */
     do
-    randint = (rand() % 7) + 1;
+    randint = (rand() % ROW) + 1;
     while (board[get_top(board, randint)][randint] != highest);
     
     board[get_top(board, randint)][randint] = sign;
 }
 
-
+void tests(const char * str) {
+    printf("%s", str);
+    getchar();
+}
+void testi(int i) {
+    printf("%i", i);
+    getchar();
+}

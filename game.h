@@ -5,5 +5,7 @@
     void new_game(char choice);
     void move_player(int board[][COL]);
     void mark_highest_random(int board[][COL], int player);
+    void tests(const char * str);
+    void testi(int i);
 
 #endif

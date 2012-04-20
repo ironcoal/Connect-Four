@@ -15,7 +15,7 @@ void new_game(char choice) {
         for (c = 0; c < COL; c++)
             board[r][c] = EMPTY;
 
-    /* TEST */
+    /* TEST
     board[6][0] = PLAYER;
     board[6][1] = PLAYER;
     board[6][2] = PLAYER;
@@ -38,7 +38,8 @@ void new_game(char choice) {
     if (won == PLAYER)
         tests("hat geklappt, spieler gewonnen");
     tests("halt");
-
+    
+    */
     /* If player chose to start ("yes"), let him "move" first */
     if (choice == 'y')
         move_player(board);

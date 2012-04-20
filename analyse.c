@@ -98,9 +98,8 @@ int four_dup(int board[][COL])
     int r, c, z;
     int count;
     for (c = 0; c < (COL - 4); c++) {
-        count = 0;
         for (r = 3; r < ROW; r++) {
-
+            count = 0;
             for (z = 0; z <= 3; z++) {
 
             if (board[r - z][c + z] == COMPUTER)
@@ -133,11 +132,9 @@ int four_ddn(int board[][COL])
 {
     int r, c, z;
     int count;
-    for (c = COL - 1; c >= 3; c--) {
-        count = 0;
-        
+    for (c = COL - 1; c >= 3; c--) {        
         for (r = 3; r < ROW; r++) {
-
+            count = 0;
             for (z = 0; z <= 3; z++) {
 
             if (board[r - z][c - z] == COMPUTER)
@@ -235,28 +232,28 @@ int *check_column(int board[][COL], int player)
 
 int *check_diagonal_up(int board[][COL], int player)
 {
-    tests("diagup");
     int r, c, z;
     int count;
-    for (c = 0; c < (COL - 3); c++) {
-        for (r = 0; r < (ROW - 3); r++) {
-            count = 0;
-            if (board[r][c] == other(player)) {
-                count = 1;
-                for (z = 1; z <= 3; z++) {
-                    if (board[r + z][c + z] == other(player)) {
-                        count++;
-                    }
-                    else if ((board[r + z][c + z] == player) || !(is_top(board, r + z, c + z)))
-                        count--;
-                }
-            }
+    for (c = 0; c < (COL - 4); c++) {
+        
+        for (r = 3; r < ROW; r++) {
+            count = 0;  
+
+            for (z = 0; z <= 3; z++) {
+
+            if (board[r - z][c + z] == other(player))
+                count++;
+            
+            else if ((board[r - z][c + z] == player) || !(is_top(board, r - z, c + z)))
+                count--;
+
             if (count == 3)
                 for (z = 1; z <= 3; z++)
                     if (board[r + z][c + z] == EMPTY) {
                         tests("du, 3");
                         return &board[r + z][c + z];
                     }
+            }
         }
     }
     return NULL;
@@ -265,27 +262,26 @@ int *check_diagonal_up(int board[][COL], int player)
 /* Same as up, but other way around:) */
 int *check_diagonal_down(int board[][COL], int player)
 {
-    tests("diagdow");
     int r, c, z;
     int count;
-    for (c = COL; c > 3; c--) {
-        for (r = 0; r < (ROW - 3); r++) {
+    for (c = COL - 1; c >= 3; c--) {        
+        for (r = 3; r < ROW; r++) {
             count = 0;
-            if (board[r][c] == other(player)) {
-                count = 1;
-                for (z = 1; z <= 3; z++) {
-                    if (board[r + z][c - z] == other(player))
-                        count++;
-                    else if ((board[r + z][c - z] == player) || !(is_top(board, r + z, c - z)))
-                        count--;
-                }
-            }
+            for (z = 0; z <= 3; z++) {
+
+            if (board[r - z][c - z] == COMPUTER)
+                count++;
+            
+            else if ((board[r - z][c - z] == player) || !(is_top(board, r - z, c - z)))
+                count--;
+
             if (count == 3)
                 for (z = 1; z <= 3; z++)
                     if (board[r + z][c - z] == EMPTY) {
                         tests("dd, 3");
                         return &board[r + z][c - z];
                     }
+            }
         }
     }
     return NULL;

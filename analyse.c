@@ -32,13 +32,16 @@ int four_row(int board[][COL])
             counts in opposite direction */   
             if (board[r][c] == COMPUTER)
                 count++;
+            
             else if (board[r][c] == PLAYER) 
                 count--;
+            
             else if (board[r][c] >= EMPTY)
                 if (count > 0)
                     count--;
-                else
+                else if (count < 0)
                     count++;
+
 
             /* Has PC or player won? */
             if (count >= 4)
@@ -74,7 +77,7 @@ int four_col(int board[][COL])
             else if (board[r][c] >= EMPTY)
                 if (count > 0)
                     count--;
-                else
+                else if (count < 0)
                     count++;
 
             /* Has PC or player won? */
@@ -96,21 +99,22 @@ int four_dup(int board[][COL])
     int count;
     for (c = 0; c < (COL - 4); c++) {
         count = 0;
-        for (r = 0; r < ROW; r++) {
+        for (r = 3; r < ROW; r++) {
 
-            /* Start on the bottom of each column
-            then go up diagonal and count */
-            if (board[r][c + r] == COMPUTER)
+            for (z = 0; z <= 3; z++) {
+
+            if (board[r - z][c + z] == COMPUTER)
                 count++;
             
-            else if (board[r][c + r] == PLAYER) 
+            else if (board[r - z][c + z] == PLAYER) 
                 count--;
 
-            else if (board[r][c + r] >= EMPTY)
+            else if (board[r - z][c + z] >= EMPTY)
                 if (count > 0)
                     count--;
-                else
+                else if (count < 0)
                     count++;
+            }
 
             /* Has PC or player won? */
             if (count >= 4)
@@ -129,23 +133,25 @@ int four_ddn(int board[][COL])
 {
     int r, c, z;
     int count;
-    for (c = 0; c < (COL - 4); c++) {
+    for (c = COL - 1; c >= 3; c--) {
         count = 0;
-        for (r = ROW - 1; r >= 0; r--) {
+        
+        for (r = 3; r < ROW; r++) {
 
-            /* Start on the top of each column
-            then go down diagonal and count */
-            if (board[r][c + r] == COMPUTER)
+            for (z = 0; z <= 3; z++) {
+
+            if (board[r - z][c - z] == COMPUTER)
                 count++;
             
-            else if (board[r][c + r] == PLAYER) 
+            else if (board[r - z][c - z] == PLAYER) 
                 count--;
 
-            else if (board[r][c + r] >= EMPTY)
+            else if (board[r - z][c - z] >= EMPTY)
                 if (count > 0)
                     count--;
-                else
+                else if (count < 0)
                     count++;
+            }
 
             /* Has PC or player won? */
             if (count >= 4)

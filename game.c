@@ -7,17 +7,36 @@ void new_game(char choice) {
     
     int r, c;
     int stat;
-    int *won;
+    int won;
+    int *test;
 
     /* Clear new board */
     for (r = 0; r < ROW; r++)
         for (c = 0; c < COL; c++)
             board[r][c] = EMPTY;
-    
+
+    /* TEST 
+    board[6][0] = PLAYER;
+    board[6][1] = PLAYER;
+    board[6][2] = PLAYER;
+    board[6][3] = PLAYER;
+    paint_board(board, 'n');
+    test = check_row(board, COMPUTER);
+    if (test != NULL)
+        tests("Erfolgreich");
+    else
+        tests("nicht erfolgreich");
+    won = four_row(board);
+    if (won == PLAYER)
+        tests("hat geklappt, spieler gewonnen");
+    tests("halt");
+
+    */
+
     /* If player chose to start ("yes"), let him "move" first */
     if (choice == 'y')
         move_player(board);
-    
+
     /* nex_move fills the board with numbers which show
     the chance of winning */
     while ((stat = next_move(board, COMPUTER)) == RUNNING) {
@@ -28,7 +47,7 @@ void new_game(char choice) {
         /* Has the above move of the PC changed the "winning-status"? */
         won = is_finished(board);
 
-        if ((*won == COMPUTER) || (*won == PLAYER) || (*won == DRAW)) {
+        if ((won == COMPUTER) || (won == PLAYER) || (won == DRAW)) {
             break;
         }
                      

@@ -1,5 +1,6 @@
 #include "calc.h"
 
+/* public variables for setting difficulty */
 int looseReturn = -1;
 int winReturn = 1;
 
@@ -11,11 +12,12 @@ int calc_move(int board[][COL], int player, int turn) {
     int temp;
     int *empty;
     int copy[ROW][COL];
+    int won;
 
-    /* Can player(computer) win with next move? */
-    danger = is_finished(board);
-    if (danger != NULL) {
-        if (player == turn)
+    /* Has somebody won in this situation? */
+    won = is_finished(board);
+    if (won != 0) {
+        if (won == player)
             return winReturn;
         else
             return looseReturn;
@@ -31,16 +33,16 @@ int calc_move(int board[][COL], int player, int turn) {
         copy_board(copy, board);
         return temp;
     }
-    
+   
     /* Else get first empty field, fill it with player 
     and call function calc_move recursiv */
     
     copy_board(board, copy);
     while ((empty = get_empty(board)) != NULL) {
         paint_board(board, 'n');
-        Sleep(50);
         copy_board(board, copy);
         *empty = player;
+        paint_board(board, 'n');
         empty_all_unoccupied(board); 
         temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
@@ -58,19 +60,19 @@ int calc_move(int board[][COL], int player, int turn) {
 but it saves the calculatet numbers on the board, so the 
 PC can later choose the highest */
 int next_move(int board[][COL], int turn) {
-    int *won;
+    int won;
     int *empty;
     int temp;
     int *danger;
     int copy[ROW][COL];
+    
     empty_all_unoccupied(board);
     
     /* Has somebody won in this situation? */
-    
     won = is_finished(board);
-    if (won != NULL)
-        return *won;
-        
+    if (won != 0)
+        return won;
+
     /* Can player(computer) win in 1 turn? */
     danger = is_danger(board, other(turn));
     if (danger != NULL) {
@@ -92,11 +94,10 @@ int next_move(int board[][COL], int turn) {
         copy_board(board, copy);
         empty_all_unoccupied(board);
         *empty = turn;
-        temp = calc_move(board, other(turn), turn);
+        temp = calc_move(board, PLAYER, turn);
         empty_all_unoccupied(board);
         copy_board(copy, board);
         *empty = temp;
-
     }
    
     return RUNNING;
@@ -168,7 +169,7 @@ int* get_empty(int board[][COL]) {
 int is_top(int board[][COL], int row, int column) {
     if (board[row][column] >= EMPTY) {
         /* Lowest row, or is a token under that field? */
-        if ((row == ROW - 1) || (board[row + 1][column] > EMPTY))
+        if ((row == ROW - 1) || (board[row + 1][column] < EMPTY))
             return 1;
     }
     return 0;
@@ -178,7 +179,7 @@ int is_top(int board[][COL], int row, int column) {
 int get_top(int board[][COL], int column) {
     int r = ROW - 1;
 
-    while ((board[r][column] > EMPTY) && (r >= 0))
+    while ((board[r][column] < EMPTY) && (r >= 0))
         r--;
     
     return r;

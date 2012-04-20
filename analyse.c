@@ -1,44 +1,181 @@
 #include "analyse.h"
 
-int *is_finished(int board[][COL]) {
-    int *p;
-    if (((p = check_row(board, COMPUTER)) != NULL) && (*p != EMPTY))
+int is_finished(int board[][COL]) 
+{
+    int p;
+    
+    if ((p = four_row(board)) != 0)
         return p;
-    if (((p = check_row(board, PLAYER)) != NULL) && (*p != EMPTY))
+    if ((p = four_col(board)) != 0)
         return p;
-    if (((p = check_column(board, COMPUTER)) != NULL) && (*p != EMPTY))
+    if ((p = four_ddn(board)) != 0)
         return p;
-    if (((p = check_column(board, PLAYER)) != NULL) && (*p != EMPTY))
+    if ((p = four_dup(board)) != 0)
         return p;
-    if (((p = check_diagonal_up(board, COMPUTER)) != NULL) && (*p != EMPTY))
-        return p;
-    if (((p = check_diagonal_up(board, PLAYER)) != NULL) && (*p != EMPTY))
-        return p;
-    if (((p = check_diagonal_down(board, COMPUTER)) != NULL) && (*p != EMPTY))
-        return p;
-    if (((p = check_diagonal_down(board, PLAYER)) != NULL) && (*p != EMPTY))
-        return p;
+    
     /* No one has won... */
-    return NULL;
+    return 0;
+}
+
+/* Are there four in a row? Returns winning player or 0 */
+int four_row(int board[][COL]) 
+{
+    int r, c;
+    int count;
+    for (r = 0; r < ROW; r++) {
+
+        /* Reset counter every new row */
+        count = 0;   
+        for (c = 0; c < COL; c++) {
+
+            /* PC is counted upwards, player down. An empty field 
+            counts in opposite direction */   
+            if (board[r][c] == COMPUTER)
+                count++;
+            else if (board[r][c] == PLAYER) 
+                count--;
+            else if (board[r][c] >= EMPTY)
+                if (count > 0)
+                    count--;
+                else
+                    count++;
+
+            /* Has PC or player won? */
+            if (count >= 4)
+                return COMPUTER;
+            else if (count <= -4)
+                return PLAYER;
+        }
+    }
+
+    /* Nobody has won! */
+    return 0;
+}
+
+/* Are there four in a column? Returns winning player or 0 */
+int four_col(int board[][COL]) 
+{
+    int r, c;
+    int count;
+    for (c = 0; c < COL; c++) {
+        
+        /* Reset counter every new column */
+        count = 0;   
+        for (r = 0; r < ROW; r++) {
+
+            /* PC is counted upwards, player down. An empty field 
+            counts in opposite direction */   
+            if (board[r][c] == COMPUTER)
+                count++;
+            
+            else if (board[r][c] == PLAYER) 
+                count--;
+
+            else if (board[r][c] >= EMPTY)
+                if (count > 0)
+                    count--;
+                else
+                    count++;
+
+            /* Has PC or player won? */
+            if (count >= 4)
+                return COMPUTER;
+            else if (count <= -4)
+                return PLAYER;
+        }
+    }
+
+    /* Nobody has won! */
+    return 0;
+}
+
+/* Are there four diagonally up? Returns winning player or 0 */
+int four_dup(int board[][COL])
+{
+    int r, c, z;
+    int count;
+    for (c = 0; c < (COL - 4); c++) {
+        count = 0;
+        for (r = 0; r < ROW; r++) {
+
+            /* Start on the bottom of each column
+            then go up diagonal and count */
+            if (board[r][c + r] == COMPUTER)
+                count++;
+            
+            else if (board[r][c + r] == PLAYER) 
+                count--;
+
+            else if (board[r][c + r] >= EMPTY)
+                if (count > 0)
+                    count--;
+                else
+                    count++;
+
+            /* Has PC or player won? */
+            if (count >= 4)
+                return COMPUTER;
+            else if (count <= -4)
+                return PLAYER;  
+        }
+    }
+
+    /* Nobody has won! */
+    return 0;        
+}
+
+/* Are there four diagonally down? Returns winning player or 0 */
+int four_ddn(int board[][COL])
+{
+    int r, c, z;
+    int count;
+    for (c = 0; c < (COL - 4); c++) {
+        count = 0;
+        for (r = ROW - 1; r >= 0; r--) {
+
+            /* Start on the top of each column
+            then go down diagonal and count */
+            if (board[r][c + r] == COMPUTER)
+                count++;
+            
+            else if (board[r][c + r] == PLAYER) 
+                count--;
+
+            else if (board[r][c + r] >= EMPTY)
+                if (count > 0)
+                    count--;
+                else
+                    count++;
+
+            /* Has PC or player won? */
+            if (count >= 4)
+                return COMPUTER;
+            else if (count <= -4)
+                return PLAYER;  
+        }
+    }
+
+    /* Nobody has won! */
+    return 0;        
 }
 
 int *is_danger(int board[][COL], int pl)
 {
     int *p;
-    if (((p = check_row(board, pl)) != NULL) && (*p == EMPTY))
+    if ((p = check_row(board, pl)) != NULL)
         return p;
-    if (((p = check_column(board, pl)) != NULL) && (*p == EMPTY))
+    if ((p = check_column(board, pl)) != NULL)
         return p;
-    if (((p = check_diagonal_up(board, pl)) != NULL) && (*p == EMPTY))
+    if ((p = check_diagonal_up(board, pl)) != NULL)
         return p;
-    if (((p = check_diagonal_down(board, pl)) != NULL) && (*p == EMPTY))
+    if ((p = check_diagonal_down(board, pl)) != NULL)
         return p;
     /* Nothing in danger ;) */
     return NULL;
 }
 
-/* Function checks, if other player has 3 in row. 
-If true, pointer to field is returned */
+/* Function checks if other player has 3 in a row. 
+If true, pointer to field is returned, otherwise NULL */
 int *check_row(int board[][COL], int player) 
 {
     int r, c, z;
@@ -48,24 +185,19 @@ int *check_row(int board[][COL], int player)
             count = 0;           
             for (z = 0; z <= 3; z++) {
                 /* Count tokens of player */
-                if (board[r][z + c] == other(player))
+                if (board[r][z + c] == other(player)) {
                     count++;
-                /* If othere player is in that section or you can't set there, count negativ */
-                else if ((board[r][z + c] == player) || !(is_top(board, r , z + c)))
+                }
+                /* If other player is in that section or you can't set there, count negativ */
+                else if ((board[r][z + c] == player) || !(is_top(board, r , z + c)))  {
                     count--;
+                }
             }
             /* If there are three in a row, return empty field */
             if (count == 3)
-                for (z = 0; z < 4; z++)
+                for (z = 0; z <= 3; z++)
                     if (board[r][z + c] == EMPTY) {
                         tests("row, 3");
-                        return &board[r][z + c];
-                    }
-            if (count == 4)
-                for (z = 0; z < 4; z++)
-                    if (board[r][z + c] == EMPTY) {
-                        tests("row, 4");
-                        printf("\nr%i, c%i, z%i", r, c, z);
                         return &board[r][z + c];
                     }
         }
@@ -87,22 +219,17 @@ int *check_column(int board[][COL], int player)
                 if (board[top + r][c] == other(player))
                     count++;
         if (count == 3) {
-            tests("col, 3");
             return &board[get_top(board, c)][c];  
         }
-        if (count == 4) {
-            tests("col, 4");
-            printf("\nr%i, c%i", r, c);
-            getchar();
-            return &board[get_top(board, c) - 1][c];
-        }
     }
+
     /* No danger in any column for player */
     return NULL;
 }
 
 int *check_diagonal_up(int board[][COL], int player)
 {
+    tests("diagup");
     int r, c, z;
     int count;
     for (c = 0; c < (COL - 3); c++) {
@@ -115,8 +242,6 @@ int *check_diagonal_up(int board[][COL], int player)
                         count++;
                     }
                     else if ((board[r + z][c + z] == player) || !(is_top(board, r + z, c + z)))
-                        if (count == 4)
-                            tests("halt 4");
                         count--;
                 }
             }
@@ -126,15 +251,6 @@ int *check_diagonal_up(int board[][COL], int player)
                         tests("du, 3");
                         return &board[r + z][c + z];
                     }
-            if (count == 4) {
-                printf("\nr%i, c%i", r, c);
-                for (z = 1; z <= 3; z++)
-                    if (board[r + z][c + z] != EMPTY) {
-                        tests("du, 4");
-                        getchar();
-                        return &board[r + z][c + z];
-                    }
-            }
         }
     }
     return NULL;
@@ -143,6 +259,7 @@ int *check_diagonal_up(int board[][COL], int player)
 /* Same as up, but other way around:) */
 int *check_diagonal_down(int board[][COL], int player)
 {
+    tests("diagdow");
     int r, c, z;
     int count;
     for (c = COL; c > 3; c--) {
@@ -163,15 +280,6 @@ int *check_diagonal_down(int board[][COL], int player)
                         tests("dd, 3");
                         return &board[r + z][c - z];
                     }
-            if (count == 4) {
-            printf("\nr%i, c%i", r, c);
-                for (z = 1; z <= 3; z++)
-                    if (board[r + z][c - z] != EMPTY) {
-                        tests("dd, 4");
-                        getchar();
-                        return &board[r + z][c - z];
-                    }
-            }
         }
     }
     return NULL;

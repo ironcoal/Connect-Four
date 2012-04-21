@@ -164,16 +164,27 @@ int four_ddn(int board[][COL])
 
 int *is_danger(int board[][COL], int pl)
 {
+    int copy[ROW][COL];
+    copy_board(board, copy);
     int *p;
-    if ((p = check_row(board, pl)) != NULL)
+    if ((p = check_row(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
-    if ((p = check_column(board, pl)) != NULL)
+    }    
+    if ((p = check_column(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
-    if ((p = check_diagonal_up(board, pl)) != NULL)
+    }   
+     if ((p = check_diagonal_up(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
-    if ((p = check_diagonal_down(board, pl)) != NULL)
+    }
+    if ((p = check_diagonal_down(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
+    }
     /* Nothing in danger ;) */
+    copy_board(copy, board);
     return NULL;
 }
 
@@ -248,7 +259,7 @@ int *check_diagonal_up(int board[][COL], int player)
                 count--;
 
             if (count == 3)
-                for (z = 1; z <= 3; z++)
+                for (z = 0; z < 3; z++)
                     if (board[r + z][c + z] == EMPTY) {
                         tests("du, 3");
                         return &board[r + z][c + z];
@@ -269,16 +280,16 @@ int *check_diagonal_down(int board[][COL], int player)
             count = 0;
             for (z = 0; z <= 3; z++) {
 
-            if (board[r - z][c - z] == COMPUTER)
+            if (board[r - z][c - z] == other(player)) {
                 count++;
-            
+            }
             else if ((board[r - z][c - z] == player) || !(is_top(board, r - z, c - z)))
                 count--;
 
             if (count == 3)
-                for (z = 1; z <= 3; z++)
+                for (z = 0; z < 3; z++)
                     if (board[r + z][c - z] == EMPTY) {
-                        tests("dd, 3");
+                        printf("%i, %i\n", r - z, c - z);
                         return &board[r + z][c - z];
                     }
             }

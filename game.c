@@ -15,31 +15,33 @@ void new_game(char choice) {
         for (c = 0; c < COL; c++)
             board[r][c] = EMPTY;
 
-    /* TEST
+    /* TEST */
     board[6][0] = PLAYER;
     board[6][1] = PLAYER;
     board[6][2] = PLAYER;
     board[6][3] = PLAYER;
     board[5][0] = PLAYER;
-    board[5][1] = COMPUTER;
+    board[5][1] = PLAYER;
     board[5][2] = PLAYER;
     board[4][0] = PLAYER;
     board[4][1] = PLAYER;
-    board[3][0] = PLAYER;
+    board[4][2] = PLAYER;
+    board[3][3] = PLAYER;
+    board[3][4] = COMPUTER;
 
+    testi(is_top(board, 3, 3));
     paint_board(board, 'n');
-    test = check_column(board, COMPUTER);
+    test = check_diagonal_down(board, COMPUTER);
     if (test != NULL)
         tests("Erfolgreich");
     else
         tests("nicht erfolgreich");
     
-    won = four_ddn(board);
+    won = four_dup(board);
     if (won == PLAYER)
         tests("hat geklappt, spieler gewonnen");
     tests("halt");
     
-    */
     /* If player chose to start ("yes"), let him "move" first */
     if (choice == 'y')
         move_player(board);

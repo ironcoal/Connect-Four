@@ -45,6 +45,7 @@ int calc_move(int board[][COL], int player, int turn) {
         paint_board(board, 'n');
         empty_all_unoccupied(board); 
         temp = calc_move(board, other(player), turn);
+        getchar();
         copy_board(copy, board);
         *empty = temp;
     }
@@ -160,7 +161,7 @@ int* get_empty(int board[][COL]) {
     int c;
     int top;
     for (c = 0; c < COL; c++)
-        if ((top = get_top(board, c)) != -1)
+        if (board[(top = get_top(board, c))][c] == EMPTY)
             return &board[top][c];
     return NULL;
 }

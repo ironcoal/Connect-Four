@@ -164,20 +164,27 @@ int four_ddn(int board[][COL])
 
 int *is_danger(int board[][COL], int pl)
 {
+    int copy[ROW][COL];
+    copy_board(board, copy);
     int *p;
     if ((p = check_row(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
     }    
     if ((p = check_column(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
     }   
      if ((p = check_diagonal_up(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
     }
     if ((p = check_diagonal_down(board, pl)) != NULL) {
+        copy_board(copy, board);
         return p;
     }
     /* Nothing in danger ;) */
+    copy_board(copy, board);
     return NULL;
 }
 
@@ -204,6 +211,7 @@ int *check_row(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z <= 3; z++)
                     if (board[r][z + c] == EMPTY) {
+                        tests("row, 3");
                         return &board[r][z + c];
                     }
         }
@@ -251,9 +259,10 @@ int *check_diagonal_up(int board[][COL], int player)
                 count--;
 
             if (count == 3)
-                for (z = 0; z <= 3; z++)
-                    if (board[r - z][c + z] == EMPTY) {
-                        return &board[r - z][c + z];
+                for (z = 0; z < 3; z++)
+                    if (board[r + z][c + z] == EMPTY) {
+                        tests("du, 3");
+                        return &board[r + z][c + z];
                     }
             }
         }
@@ -278,9 +287,10 @@ int *check_diagonal_down(int board[][COL], int player)
                 count--;
 
             if (count == 3)
-                for (z = 0; z <= 3; z++)
-                    if (board[r - z][c - z] == EMPTY) {
-                        return &board[r - z][c - z];
+                for (z = 0; z < 3; z++)
+                    if (board[r + z][c - z] == EMPTY) {
+                        printf("%i, %i\n", r - z, c - z);
+                        return &board[r + z][c - z];
                     }
             }
         }

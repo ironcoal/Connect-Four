@@ -15,31 +15,33 @@ void new_game(char choice) {
         for (c = 0; c < COL; c++)
             board[r][c] = EMPTY;
 
-    /* TEST 
+    /* TEST */
     board[6][0] = PLAYER;
     board[6][1] = PLAYER;
-    board[6][2] = COMPUTER;
+    board[6][2] = PLAYER;
     board[6][3] = PLAYER;
-    board[5][0] = COMPUTER;
+    board[5][0] = PLAYER;
     board[5][1] = PLAYER;
-    board[5][2] = COMPUTER;
-    board[4][0] = COMPUTER;
-    board[4][1] = COMPUTER;
+    board[5][2] = PLAYER;
+    board[4][0] = PLAYER;
+    board[4][1] = PLAYER;
     board[4][2] = PLAYER;
-    board[3][1] = PLAYER;
+    board[3][3] = PLAYER;
+    board[3][4] = COMPUTER;
 
-    paint_board(board, 'e');
-    test = check_row(board, COMPUTER);
+    testi(is_top(board, 3, 3));
+    paint_board(board, 'n');
+    test = check_diagonal_down(board, COMPUTER);
     if (test != NULL)
-        tests("Erfolgreich",0);
+        tests("Erfolgreich");
     else
-        tests("nicht erfolgreich",0);
+        tests("nicht erfolgreich");
     
-    won = four_ddn(board);
+    won = four_dup(board);
     if (won == PLAYER)
-        tests("hat geklappt, spieler gewonnen",0);
-    tests("halt",0);
-    */
+        tests("hat geklappt, spieler gewonnen");
+    tests("halt");
+    
     /* If player chose to start ("yes"), let him "move" first */
     if (choice == 'y')
         move_player(board);
@@ -130,7 +132,11 @@ void mark_highest_random(int board[][COL], int sign) {
     board[get_top(board, randint)][randint] = sign;
 }
 
-void tests(const char * str, int i) {
-    printf("%s: %i", str, i);
+void tests(const char * str) {
+    printf("%s", str);
+    getchar();
+}
+void testi(int i) {
+    printf("%i", i);
     getchar();
 }

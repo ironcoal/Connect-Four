@@ -17,17 +17,10 @@ int calc_move(int board[][COL], int player, int turn) {
     /* Has somebody won in this situation? */
     won = is_finished(board);
     if (won != 0) {
-        if (won == player) {
+        if (won == player)
             return winReturn;
-        }
-        else {
+        else
             return looseReturn;
-        }
-    }
-    /* Can player win in one turn? */
-    danger = is_danger(board, other(player));
-    if (danger != NULL) {
-        return winReturn;
     }
 
     /* Is there only one choice for next move? */
@@ -35,7 +28,7 @@ int calc_move(int board[][COL], int player, int turn) {
     if (danger != NULL) {
         copy_board(board, copy);
         *danger = player;
-        empty_all_unoccupied(board);
+        empty_all_unoccupied(board);       
         temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
         return temp;
@@ -46,8 +39,10 @@ int calc_move(int board[][COL], int player, int turn) {
     
     copy_board(board, copy);
     while ((empty = get_empty(board)) != NULL) {
+        paint_board(board, 'n');
         copy_board(board, copy);
         *empty = player;
+        paint_board(board, 'n');
         empty_all_unoccupied(board); 
         temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
@@ -100,7 +95,6 @@ int next_move(int board[][COL], int turn) {
         empty_all_unoccupied(board);
         *empty = turn;
         temp = calc_move(board, PLAYER, turn);
-        paint_board(board, 'n');
         empty_all_unoccupied(board);
         copy_board(copy, board);
         *empty = temp;
@@ -111,8 +105,8 @@ int next_move(int board[][COL], int turn) {
 
 /* Set difficulty of PC */
 void set_difficulty(int number) {
-    /* looseReturn = (-1) * number * 2;
-    winReturn = 10 / number;*/
+    looseReturn = (-1) * number * 2;
+    winReturn = 10 / number;
 }
 
 /* Copy content of the two boards */
@@ -147,7 +141,7 @@ int add_all_unoccupied(int board[][COL]) {
     int sum = 0;
     for (r = 0; r < ROW; r++)
         for (c = 0; c < COL; c++)
-            if (board[r][c] > EMPTY)
+            if ((board[r][c] != PLAYER) && (board[r][c] != COMPUTER))
                 sum += board[r][c];
     return sum;
 }
@@ -165,11 +159,9 @@ void empty_all_unoccupied(int board[][COL]) {
 int* get_empty(int board[][COL]) {
     int c;
     int top;
-    for (c = 0; c < COL; c++) {
-        top = get_top(board, c);
-        if ((top != -1) && (board[top][c] == EMPTY))
+    for (c = 0; c < COL; c++)
+        if ((top = get_top(board, c)) != -1)
             return &board[top][c];
-    }
     return NULL;
 }
 
@@ -187,10 +179,8 @@ int is_top(int board[][COL], int row, int column) {
 int get_top(int board[][COL], int column) {
     int r = ROW - 1;
 
-    while (board[r][column] < EMPTY)
-        if (r == 0)
-            return -1;
-        else
-            r--;
+    while ((board[r][column] < EMPTY) && (r >= 0))
+        r--;
+    
     return r;
 }

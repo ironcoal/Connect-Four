@@ -166,6 +166,7 @@ int *is_danger(int board[][COL], int pl)
 {
     int copy[ROW][COL];
     copy_board(board, copy);
+    empty_all_unoccupied(board);
     int *p;
     if ((p = check_row(board, pl)) != NULL) {
         copy_board(copy, board);
@@ -211,7 +212,6 @@ int *check_row(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z <= 3; z++)
                     if (board[r][z + c] == EMPTY) {
-                        tests("row, 3");
                         return &board[r][z + c];
                     }
         }
@@ -261,7 +261,6 @@ int *check_diagonal_up(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z < 3; z++)
                     if (board[r + z][c + z] == EMPTY) {
-                        tests("du, 3");
                         return &board[r + z][c + z];
                     }
             }
@@ -289,7 +288,6 @@ int *check_diagonal_down(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z < 3; z++)
                     if (board[r + z][c - z] == EMPTY) {
-                        printf("%i, %i\n", r - z, c - z);
                         return &board[r + z][c - z];
                     }
             }

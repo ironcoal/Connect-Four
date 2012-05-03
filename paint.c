@@ -48,7 +48,7 @@ void paint_board(int board[][COL], char choice) {
     paint(strar);
     free(strar);
 }
-
+/*
 void paint(char ***p) {
     
     system("cls");
@@ -80,6 +80,23 @@ void paint(char ***p) {
     p[4][0], p[4][1], p[4][2], p[4][3], p[4][4], p[4][5], p[4][6],
     p[5][0], p[5][1], p[5][2], p[5][3], p[5][4], p[5][5], p[5][6],
     p[6][0], p[6][1], p[6][2], p[6][3], p[6][4], p[6][5], p[6][6]);
+    getchar();
+} */
+
+void paint(char*** p) {
+    int r, c;
+    printf(
+    "     ----------------------\n"
+    "     |    CONNECT FOUR    |\n"
+    "     ----------------------\n\n\n");
+    printf("\n   -----------------------------\n");
+    for (r = 0; r < ROW; r++) {
+        printf("   |");
+        for (c = 0; c < COL; c++) {
+            printf("%2s |", p[r][c]);
+        }
+        printf("\n   -----------------------------\n");
+    }
 }
 
 void paint_smiley(int look) {

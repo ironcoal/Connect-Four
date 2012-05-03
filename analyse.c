@@ -17,36 +17,41 @@ int is_finished(int board[][COL])
     return 0;
 }
 
+
 /* Are there four in a row? Returns winning player or 0 */
 int four_row(int board[][COL]) 
 {
     int r, c;
-    int count;
+    /* One counter for the player, one for the pc */
+    int countc = 0;
+    int countp = 0;
+
     for (r = 0; r < ROW; r++) {
 
         /* Reset counter every new row */
-        count = 0;   
+        countc = 0;
+        countp = 0; 
         for (c = 0; c < COL; c++) {
 
-            /* PC is counted upwards, player down. An empty field 
-            counts in opposite direction */   
-            if (board[r][c] == COMPUTER)
-                count++;
-            
-            else if (board[r][c] == PLAYER) 
-                count--;
-            
-            else if (board[r][c] >= EMPTY)
-                if (count > 0)
-                    count--;
-                else if (count < 0)
-                    count++;
-
+            /* For each game-piece the related counter is incremented,
+             * the other one set to 0.
+             * If there is no piece, both counters are reseted.
+             */   
+            if (board[r][c] == COMPUTER) {
+                countc++;
+                countp = 0;
+            } else if (board[r][c] == PLAYER) {
+                countp++;
+                countc = 0;
+            } else {
+                countc = 0;
+                countp = 0;
+            }
 
             /* Has PC or player won? */
-            if (count >= 4)
+            if (countc == 4)
                 return COMPUTER;
-            else if (count <= -4)
+            else if (countp == 4)
                 return PLAYER;
         }
     }
@@ -56,34 +61,37 @@ int four_row(int board[][COL])
 }
 
 /* Are there four in a column? Returns winning player or 0 */
-int four_col(int board[][COL]) 
-{
+int four_col(int board[][COL]) {
     int r, c;
-    int count;
+    int countc = 0;
+    int countp = 0;
     for (c = 0; c < COL; c++) {
         
         /* Reset counter every new column */
-        count = 0;   
+        countc = 0;
+        countp = 0; 
+
         for (r = 0; r < ROW; r++) {
 
-            /* PC is counted upwards, player down. An empty field 
-            counts in opposite direction */   
-            if (board[r][c] == COMPUTER)
-                count++;
-            
-            else if (board[r][c] == PLAYER) 
-                count--;
-
-            else if (board[r][c] >= EMPTY)
-                if (count > 0)
-                    count--;
-                else if (count < 0)
-                    count++;
+            /* For each game-piece the related counter is incremented,
+             * the other one set to 0.
+             * If there is no piece, both counters are reseted.
+             */   
+            if (board[r][c] == COMPUTER) {
+                countc++;
+                countp = 0;
+            } else if (board[r][c] == PLAYER) {
+                countp++;
+                countc = 0;
+            } else {
+                countc = 0;
+                countp = 0;
+            }
 
             /* Has PC or player won? */
-            if (count >= 4)
+            if (countc == 4)
                 return COMPUTER;
-            else if (count <= -4)
+            else if (countp == 4)
                 return PLAYER;
         }
     }
@@ -93,33 +101,39 @@ int four_col(int board[][COL])
 }
 
 /* Are there four diagonally up? Returns winning player or 0 */
-int four_dup(int board[][COL])
-{
+int four_dup(int board[][COL]) {
     int r, c, z;
-    int count;
+    int countc = 0;
+    int countp = 0;
     for (c = 0; c < (COL - 4); c++) {
         for (r = 3; r < ROW; r++) {
-            count = 0;
-            for (z = 0; z <= 3; z++) {
-
-            if (board[r - z][c + z] == COMPUTER)
-                count++;
             
-            else if (board[r - z][c + z] == PLAYER) 
-                count--;
+            /* Reset counter every 4 diagonal fields */
+            countc = 0;
+            countp = 0; 
 
-            else if (board[r - z][c + z] >= EMPTY)
-                if (count > 0)
-                    count--;
-                else if (count < 0)
-                    count++;
+            for (z = 0; z <= 3; z++) {
+                /* For each game-piece the related counter is incremented,
+                 * the other one set to 0.
+                 * If there is no piece, both counters are reseted.
+                 */   
+                if (board[r - z][c + z] == COMPUTER) {
+                    countc++;
+                    countp = 0;
+                } else if (board[r - z][c + z] == PLAYER) {
+                    countp++;
+                    countc = 0;
+                } else {
+                    countc = 0;
+                    countp = 0;
+                }
+
+                /* Has PC or player won? */
+                if (countc == 4)
+                    return COMPUTER;
+                else if (countp == 4)
+                    return PLAYER;
             }
-
-            /* Has PC or player won? */
-            if (count >= 4)
-                return COMPUTER;
-            else if (count <= -4)
-                return PLAYER;  
         }
     }
 
@@ -128,33 +142,38 @@ int four_dup(int board[][COL])
 }
 
 /* Are there four diagonally down? Returns winning player or 0 */
-int four_ddn(int board[][COL])
-{
+int four_ddn(int board[][COL]) {
     int r, c, z;
-    int count;
+    int countc = 0;
+    int countp = 0;
     for (c = COL - 1; c >= 3; c--) {        
         for (r = 3; r < ROW; r++) {
-            count = 0;
-            for (z = 0; z <= 3; z++) {
-
-            if (board[r - z][c - z] == COMPUTER)
-                count++;
             
-            else if (board[r - z][c - z] == PLAYER) 
-                count--;
-
-            else if (board[r - z][c - z] >= EMPTY)
-                if (count > 0)
-                    count--;
-                else if (count < 0)
-                    count++;
+            /* Reset counter every 4 diagonal fields */
+            countc = 0;
+            countp = 0; 
+            
+            for (z = 0; z <= 3; z++) {
+                /* For each game-piece the related counter is incremented,
+                 * the other one set to 0.
+                 * If there is no piece, both counters are reseted.
+                 */   
+                if (board[r - z][c - z] == COMPUTER) {
+                    countc++;
+                    countp = 0;
+                } else if (board[r - z][c - z] == PLAYER) {
+                    countp++;
+                    countc = 0;
+                } else {
+                    countc = 0;
+                    countp = 0;
+                }
+                /* Has PC or player won? */
+                if (countc == 4)
+                    return COMPUTER;
+                else if (countp == 4)
+                    return PLAYER; 
             }
-
-            /* Has PC or player won? */
-            if (count >= 4)
-                return COMPUTER;
-            else if (count <= -4)
-                return PLAYER;  
         }
     }
 
@@ -212,6 +231,8 @@ int *check_row(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z <= 3; z++)
                     if (board[r][z + c] == EMPTY) {
+                        paint_board(board, 'n');
+                        tests("row", 1);
                         return &board[r][z + c];
                     }
         }
@@ -260,8 +281,8 @@ int *check_diagonal_up(int board[][COL], int player)
 
             if (count == 3)
                 for (z = 0; z < 3; z++)
-                    if (board[r + z][c + z] == EMPTY) {
-                        return &board[r + z][c + z];
+                    if (board[r - z][c + z] == EMPTY) {
+                        return &board[r - z][c + z];
                     }
             }
         }
@@ -270,8 +291,7 @@ int *check_diagonal_up(int board[][COL], int player)
 }
 
 /* Same as up, but other way around:) */
-int *check_diagonal_down(int board[][COL], int player)
-{
+int *check_diagonal_down(int board[][COL], int player) {
     int r, c, z;
     int count;
     for (c = COL - 1; c >= 3; c--) {        
@@ -287,8 +307,8 @@ int *check_diagonal_down(int board[][COL], int player)
 
             if (count == 3)
                 for (z = 0; z < 3; z++)
-                    if (board[r + z][c - z] == EMPTY) {
-                        return &board[r + z][c - z];
+                    if (board[r - z][c - z] == EMPTY) {
+                        return &board[r - z][c - z];
                     }
             }
         }

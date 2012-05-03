@@ -23,6 +23,12 @@ int calc_move(int board[][COL], int player, int turn) {
             return looseReturn;
     }
 
+    /* Can player win in one turn? */
+    danger = is_danger(board, other(player));
+    if (danger != NULL) {
+        return winReturn;
+    }
+
     /* Is there only one choice for next move? */
     danger = is_danger(board, player);
     if (danger != NULL) {
@@ -39,7 +45,6 @@ int calc_move(int board[][COL], int player, int turn) {
     
     copy_board(board, copy);
     while ((empty = get_empty(board)) != NULL) {
-        paint_board(board, 'n');
         copy_board(board, copy);
         *empty = player;
         paint_board(board, 'n');
@@ -159,9 +164,10 @@ void empty_all_unoccupied(int board[][COL]) {
 int* get_empty(int board[][COL]) {
     int c;
     int top;
-    for (c = 0; c < COL; c++)
-        if ((top = get_top(board, c)) != -1)
+    for (c = 0; c < COL; c++) {
+        if ((top = get_top(board, c)) >= 0)
             return &board[top][c];
+    }
     return NULL;
 }
 
@@ -177,9 +183,10 @@ int is_top(int board[][COL], int row, int column) {
 
 /* Returns number of top field, -1 if full */
 int get_top(int board[][COL], int column) {
+    
     int r = ROW - 1;
 
-    while ((board[r][column] < EMPTY) && (r >= 0))
+    while ((r >= 0) && (board[r][column] < EMPTY))
         r--;
     
     return r;

@@ -17,7 +17,7 @@ int calc_move(int board[][COL], int player, int turn) {
     /* Has somebody won in this situation? */
     won = is_finished(board);
     if (won != 0) {
-        if (won == player)
+        if (won == turn)
             return winReturn;
         else
             return looseReturn;
@@ -26,7 +26,12 @@ int calc_move(int board[][COL], int player, int turn) {
     /* Can player win in one turn? */
     danger = is_danger(board, other(player));
     if (danger != NULL) {
-        return winReturn;
+        
+        if (player == turn) {
+            return winReturn;
+        } else {
+            return looseReturn;
+        }
     }
 
     /* Is there only one choice for next move? */
@@ -34,6 +39,7 @@ int calc_move(int board[][COL], int player, int turn) {
     if (danger != NULL) {
         copy_board(board, copy);
         *danger = player;
+        paint_board(board, 'n');
         empty_all_unoccupied(board);       
         temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
@@ -49,9 +55,13 @@ int calc_move(int board[][COL], int player, int turn) {
         *empty = player;
         paint_board(board, 'n');
         empty_all_unoccupied(board); 
+        tests("vor calc", 0);
         temp = calc_move(board, other(player), turn);
+        tests("nach calc temp", temp);
         copy_board(copy, board);
         *empty = temp;
+        tests("empty", *empty);
+        paint_board(board, 'n');
     }
 
     temp = add_all_unoccupied(board);
@@ -99,7 +109,7 @@ int next_move(int board[][COL], int turn) {
         copy_board(board, copy);
         empty_all_unoccupied(board);
         *empty = turn;
-        temp = calc_move(board, PLAYER, turn);
+        temp = calc_move(board, other(turn), turn);
         empty_all_unoccupied(board);
         copy_board(copy, board);
         *empty = temp;
@@ -110,8 +120,8 @@ int next_move(int board[][COL], int turn) {
 
 /* Set difficulty of PC */
 void set_difficulty(int number) {
-    looseReturn = (-1) * number * 2;
-    winReturn = 10 / number;
+    /*looseReturn = (-1) * number * 2;
+    winReturn = 10 / number; */
 }
 
 /* Copy content of the two boards */
@@ -165,8 +175,8 @@ int* get_empty(int board[][COL]) {
     int c;
     int top;
     for (c = 0; c < COL; c++) {
-        if ((top = get_top(board, c)) >= 0)
-            return &board[top][c];
+        if (((top = get_top(board, c)) >= 0) && (board[top][c] == EMPTY))
+            return &(board[top][c]);
     }
     return NULL;
 }

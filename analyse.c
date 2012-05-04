@@ -181,12 +181,13 @@ int four_ddn(int board[][COL]) {
     return 0;        
 }
 
-int *is_danger(int board[][COL], int pl)
-{
+int *is_danger(int board[][COL], int pl) {
     int copy[ROW][COL];
+    int *p;
+
     copy_board(board, copy);
     empty_all_unoccupied(board);
-    int *p;
+    
     if ((p = check_row(board, pl)) != NULL) {
         copy_board(copy, board);
         return p;
@@ -231,9 +232,8 @@ int *check_row(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z <= 3; z++)
                     if (board[r][z + c] == EMPTY) {
-                        paint_board(board, 'n');
-                        tests("row", 1);
-                        return &board[r][z + c];
+                        tests("in row", board[r][z+c]);
+                        return &(board[r][z + c]);
                     }
         }
     }
@@ -250,11 +250,11 @@ int *check_column(int board[][COL], int player)
     for (c = 0; c < COL; c++) {
         count = 0;
         if (((top = get_top(board, c)) != -1) && (top < (ROW - 3)))
-            for (r = 1; r < 4; r++)
+            for (r = 1; r <= 3; r++)
                 if (board[top + r][c] == other(player))
                     count++;
         if (count == 3) {
-            return &board[get_top(board, c)][c];  
+            return &(board[get_top(board, c)][c]);  
         }
     }
 
@@ -282,7 +282,7 @@ int *check_diagonal_up(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z < 3; z++)
                     if (board[r - z][c + z] == EMPTY) {
-                        return &board[r - z][c + z];
+                        return &(board[r - z][c + z]);
                     }
             }
         }
@@ -294,8 +294,10 @@ int *check_diagonal_up(int board[][COL], int player)
 int *check_diagonal_down(int board[][COL], int player) {
     int r, c, z;
     int count;
+
     for (c = COL - 1; c >= 3; c--) {        
         for (r = 3; r < ROW; r++) {
+
             count = 0;
             for (z = 0; z <= 3; z++) {
 
@@ -308,7 +310,10 @@ int *check_diagonal_down(int board[][COL], int player) {
             if (count == 3)
                 for (z = 0; z < 3; z++)
                     if (board[r - z][c - z] == EMPTY) {
-                        return &board[r - z][c - z];
+                        tests("inhalt ddn: ", board[r - z][c - z]);
+                        printf("r: %i, c: %i", r - z, c - z);
+                        getchar();
+                        return &(board[r - z][c - z]);
                     }
             }
         }

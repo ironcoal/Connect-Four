@@ -3,7 +3,6 @@
 int main(void) {
     
     char input;
-    system("cls");
     puts("Welcome to TicTacToe 1.0! (c) DF");
     
     while (1) {
@@ -12,6 +11,7 @@ int main(void) {
        
         /* New game or exit? */
         input = check_input_char("ne");
+
 
         /* Exit on command */
         if (input == 'e')

@@ -8,7 +8,7 @@ void new_game(char choice) {
     int r, c;
     int stat;
     int won;
-    int *test;
+    /* int *test; */
 
     /* Clear new board */
     for (r = 0; r < ROW; r++)

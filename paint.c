@@ -4,15 +4,16 @@ void paint_board(int board[][COL], char choice) {
    
     int i, j;
     char*** strar;
+
+    strar = malloc(ROW * sizeof(char*));
+    for (i = 0; i < ROW; i++)
+        strar[i] = malloc(COL * sizeof(char*));
+    for (i = 0; i < ROW; i++)
+        for (j = 0; j < COL; j++)
+            strar[i][j] = malloc(15 * sizeof(char));
     
-    strar = malloc(9 * sizeof(char*));
-    for (i = 0; i < 9; i++)
-        strar[i] = malloc(15 * sizeof(char*));
-    for (i = 0; i < 9; i++)
-        strar[i][i] = malloc(15 * sizeof(char));
-    
-    for (i = 0; i < 7; i++) {
-        for (j = 0; j < 7; j++) {
+    for (i = 0; i < ROW; i++) {
+        for (j = 0; j < COL; j++) {
             
             switch(board[i][j]) {
                 
@@ -37,6 +38,8 @@ void paint_board(int board[][COL], char choice) {
                 
                 default:
                     if (choice == 'n') {
+                        sprintf(strar[i][j], "%d", -1);
+                        tests("davor", 2);
                         sprintf(strar[i][j], "%d", board[i][j]);
                     } else                       
                         strar[i][j] = " ";
@@ -48,40 +51,6 @@ void paint_board(int board[][COL], char choice) {
     paint(strar);
     free(strar);
 }
-/*
-void paint(char ***p) {
-    
-    system("cls");
-    printf(
-    "     ----------------------\n"
-    "     |    CONNECT FOUR    |\n"
-    "     ----------------------\n\n\n");
-    printf(
-    "  -----------------------------      X = Player\n"                        
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|      C = Computer\n"                        
-    "  -----------------------------\n"
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|\n"        
-    "  -----------------------------\n"        
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|\n"    
-    "  -----------------------------\n"        
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|\n"
-    "  -----------------------------\n", 
-    p[0][0], p[0][1], p[0][2], p[0][3], p[0][4], p[0][5], p[0][6],
-    p[1][0], p[1][1], p[1][2], p[1][3], p[1][4], p[1][5], p[1][6],
-    p[2][0], p[2][1], p[2][2], p[2][3], p[2][4], p[2][5], p[2][6],
-    p[3][0], p[3][1], p[3][2], p[3][3], p[3][4], p[3][5], p[3][6]);
-    printf(
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|\n"
-    "  -----------------------------\n"     
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|\n"
-    "  -----------------------------\n"    
-    "  |%3s|%3s|%3s|%3s|%3s|%3s|%3s|\n"
-    "  -----------------------------\n",
-    p[4][0], p[4][1], p[4][2], p[4][3], p[4][4], p[4][5], p[4][6],
-    p[5][0], p[5][1], p[5][2], p[5][3], p[5][4], p[5][5], p[5][6],
-    p[6][0], p[6][1], p[6][2], p[6][3], p[6][4], p[6][5], p[6][6]);
-    getchar();
-} */
 
 void paint(char*** p) {
     int r, c;
@@ -97,6 +66,7 @@ void paint(char*** p) {
         }
         printf("\n   -----------------------------\n");
     }
+    getchar();
 }
 
 void paint_smiley(int look) {

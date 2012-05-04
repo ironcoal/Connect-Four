@@ -38,8 +38,6 @@ void paint_board(int board[][COL], char choice) {
                 
                 default:
                     if (choice == 'n') {
-                        sprintf(strar[i][j], "%d", -1);
-                        tests("davor", 2);
                         sprintf(strar[i][j], "%d", board[i][j]);
                     } else                       
                         strar[i][j] = " ";

@@ -39,8 +39,7 @@ int calc_move(int board[][COL], int player, int turn) {
     if (danger != NULL) {
         copy_board(board, copy);
         *danger = player;
-        paint_board(board, 'n');
-        empty_all_unoccupied(board);       
+        empty_all_unoccupied(board); 
         temp = calc_move(board, other(player), turn);
         copy_board(copy, board);
         return temp;
@@ -49,25 +48,17 @@ int calc_move(int board[][COL], int player, int turn) {
     /* Else get first empty field, fill it with player 
     and call function calc_move recursiv */
     
-    copy_board(board, copy);
     while ((empty = get_empty(board)) != NULL) {
         copy_board(board, copy);
         *empty = player;
-        paint_board(board, 'n');
         empty_all_unoccupied(board); 
-        tests("vor calc", 0);
         temp = calc_move(board, other(player), turn);
-        tests("nach calc temp", temp);
         copy_board(copy, board);
         *empty = temp;
-        tests("empty", *empty);
-        paint_board(board, 'n');
     }
 
-    temp = add_all_unoccupied(board);
-    copy_board(copy, board);
-    
-    
+    temp = add_all_unoccupied(board);   
+    printf("%i\n", temp);
     return temp;
 }   
 
@@ -91,7 +82,6 @@ int next_move(int board[][COL], int turn) {
     /* Can player(computer) win in 1 turn? */
     danger = is_danger(board, other(turn));
     if (danger != NULL) {
-        zero_all_empty(board);
         *danger = 1;
         return RUNNING;
     }
@@ -99,7 +89,6 @@ int next_move(int board[][COL], int turn) {
     /* Is there only one choice for next move? */
     danger = is_danger(board, turn);
     if (danger != NULL) {
-        zero_all_empty(board);
         *danger = 1;
         return RUNNING;
     }
@@ -110,6 +99,7 @@ int next_move(int board[][COL], int turn) {
         empty_all_unoccupied(board);
         *empty = turn;
         temp = calc_move(board, other(turn), turn);
+        tests("2. runde!", 0);
         empty_all_unoccupied(board);
         copy_board(copy, board);
         *empty = temp;
@@ -120,7 +110,7 @@ int next_move(int board[][COL], int turn) {
 
 /* Set difficulty of PC */
 void set_difficulty(int number) {
-    /*looseReturn = (-1) * number * 2;
+    /* looseReturn = (-1) * number * 2;
     winReturn = 10 / number; */
 }
 
@@ -156,7 +146,7 @@ int add_all_unoccupied(int board[][COL]) {
     int sum = 0;
     for (r = 0; r < ROW; r++)
         for (c = 0; c < COL; c++)
-            if ((board[r][c] != PLAYER) && (board[r][c] != COMPUTER))
+            if (board[r][c] > EMPTY)
                 sum += board[r][c];
     return sum;
 }

@@ -105,7 +105,7 @@ int four_dup(int board[][COL]) {
     int r, c, z;
     int countc = 0;
     int countp = 0;
-    for (c = 0; c < (COL - 4); c++) {
+    for (c = 0; c < (COL - 3); c++) {
         for (r = 3; r < ROW; r++) {
             
             /* Reset counter every 4 diagonal fields */
@@ -123,9 +123,6 @@ int four_dup(int board[][COL]) {
                 } else if (board[r - z][c + z] == PLAYER) {
                     countp++;
                     countc = 0;
-                } else {
-                    countc = 0;
-                    countp = 0;
                 }
 
                 /* Has PC or player won? */
@@ -164,10 +161,8 @@ int four_ddn(int board[][COL]) {
                 } else if (board[r - z][c - z] == PLAYER) {
                     countp++;
                     countc = 0;
-                } else {
-                    countc = 0;
-                    countp = 0;
                 }
+                
                 /* Has PC or player won? */
                 if (countc == 4)
                     return COMPUTER;
@@ -232,7 +227,6 @@ int *check_row(int board[][COL], int player)
             if (count == 3)
                 for (z = 0; z <= 3; z++)
                     if (board[r][z + c] == EMPTY) {
-                        tests("in row", board[r][z+c]);
                         return &(board[r][z + c]);
                     }
         }
@@ -310,9 +304,6 @@ int *check_diagonal_down(int board[][COL], int player) {
             if (count == 3)
                 for (z = 0; z < 3; z++)
                     if (board[r - z][c - z] == EMPTY) {
-                        tests("inhalt ddn: ", board[r - z][c - z]);
-                        printf("r: %i, c: %i", r - z, c - z);
-                        getchar();
                         return &(board[r - z][c - z]);
                     }
             }
